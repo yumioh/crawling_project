@@ -55,22 +55,22 @@ while True :
                 if idx == 0: #날짜
                     is_expected_date = True if data.startswith(expected_year_month) else False
                     if is_expected_date:
-                        row.append(data)
+                        row.append(data.replace('.','-'))
                 if is_expected_date and idx == 1: #종가
-                    row.append(data)
+                    row.append(data.replace(',',''))
                 if is_expected_date and idx == 2: #전일비
                     img = data_element.find('img')
                     if img:
                         data = ('-' if img.attrs['alt'] == '하락' else '+') + data
-                    row.append(data)
+                    row.append(data.replace(',',''))
                 if is_expected_date and idx == 3: #시가
-                    row.append(data)
+                    row.append(data.replace(',',''))
                 if is_expected_date and idx == 4: #고가
-                    row.append(data)
+                    row.append(data.replace(',',''))
                 if is_expected_date and idx == 5: #저가
-                    row.append(data)
+                    row.append(data.replace(',',''))
                 if is_expected_date and idx == 6: #거래량
-                    row.append(data)
+                    row.append(data.replace(',',''))
             if is_expected_date:
                 rows.append(row)
     page += 1
