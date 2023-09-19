@@ -14,19 +14,22 @@ mid = 'sec'
 oid = '001' #연합뉴스 001
 page = 1
 
-while True :
-    print('page : {}',page)
+for day in range(1,32) :
+    print('page : ',page)
 
-    for day in range(1,32):
-        date = '202308' + '{0:02d}'.format(day)
-        prams = {
-            'mode':mode,
-            'mid': mid,
-            'oid': oid,
-            'date' : str(date),
-            'page': str(page)
-        }
-
+    date = '202308' + '{0:02d}'.format(day)
+    prams = {
+        'mode':mode,
+        'mid': mid,
+        'oid': oid,
+        'date' : str(date),
+        'page': str(page)
+    }
+    print(date)
+    
+    if date == '20230901':
+        break
+    
     #연합뉴스 기사리스트
     newsList_response = requests.get("https://news.naver.com/main/list.naver", headers=headers, params=prams)
     newsList_bs = BeautifulSoup(newsList_response.text, 'html.parser')
