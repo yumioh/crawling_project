@@ -17,17 +17,17 @@ page = 1
 for day in range(1,32) :
     #8월 한달간 데이터 추출
     date = '202308' + '{0:02d}'.format(day)
-    prams = {
-        'mode':mode,
-        'mid': mid,
-        'oid': oid,
-        'date' : str(date),
-        'page': str(page)
-    }
-    print(date)
-    
     while True:
         print('page : ',page)
+
+        prams = {
+            'mode':mode,
+            'mid': mid,
+            'oid': oid,
+            'date' : str(date),
+            'page': str(page)
+        }
+        print(date)
 
         #연합뉴스 기사리스트
         newsList_response = requests.get("https://news.naver.com/main/list.naver", headers=headers, params=prams)
