@@ -14,6 +14,51 @@ mid = 'sec'
 oid = '001' #연합뉴스 001
 page = 1
 
+
+        #전처리를 위한 정규식
+def content_reg(content):
+        
+    email_reg = '[\w.+-]+@[\w-]+\.[\w.-]+' #이메일주소
+    em_reg = '<em*(.*?)<(\/?)em>' #em태그
+    br_reg = '(<([^>]+)>)' # 모든태그 없애기
+    button_reg = '<button*(.*?)<(\/?)button>' #버튼태그
+    dt_reg = '<dt*(.*?)<(\/?)dt>' #dt태그
+    ap_tag= '<[a|p](.*)<(\/?)[a|p]>'#a/p 태그
+
+    content= content.replace('\n', '')
+    result = re.sub(email_reg,'',content)
+    result = re.sub(ap_tag,'',result)
+    result = re.sub(em_reg,'',result)
+    result = re.sub(button_reg,'',result)
+    result = re.sub(dt_reg,'',result)
+    result = re.sub(br_reg,'',result)
+    return result
+
+def extract_date(datetime) -> str:
+    x = re.findall('[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.', datetime)
+    if x:
+        return x[0]
+    return None
+
+#이메일 처리
+def cleanup_content(content) -> str:
+    result = re.sub('[\w.+-]+@[\w-]+\.[\w.-]+', '', content)
+    return result
+
+def get_news_reactions(url) -> dict:
+    react_response = requests.get(url, headers=headers)
+    react_json = re.findall('(?<=jQuery.{34}\()(.*)(?=\);)', react_response.text)[0]
+    json_data = json.loads(react_json)
+
+    _reactions = {}
+    for data in json_data['contents']:
+        if data['serviceId'] == 'NEWS':
+            for reaction in data['reactions']:
+                key = reaction['reactionType']
+                val = reaction['count']
+                _reactions[key] = val
+    return _reactions
+
 for day in range(1,32) :
     #8월 한달간 데이터 추출
     date = '202308' + '{0:02d}'.format(day)
@@ -38,50 +83,6 @@ for day in range(1,32) :
         
         if page != now_page:
             break
-
-        #전처리를 위한 정규식
-        def content_reg(content):
-        
-            email_reg = '[\w.+-]+@[\w-]+\.[\w.-]+' #이메일주소
-            em_reg = '<em*(.*?)<(\/?)em>' #em태그
-            br_reg = '(<([^>]+)>)' # 모든태그 없애기
-            button_reg = '<button*(.*?)<(\/?)button>' #버튼태그
-            dt_reg = '<dt*(.*?)<(\/?)dt>' #dt태그
-            ap_tag= '<[a|p](.*)<(\/?)[a|p]>'#a/p 태그
-
-            content= content.replace('\n', '')
-            result = re.sub(email_reg,'',content)
-            result = re.sub(ap_tag,'',result)
-            result = re.sub(em_reg,'',result)
-            result = re.sub(button_reg,'',result)
-            result = re.sub(dt_reg,'',result)
-            result = re.sub(br_reg,'',result)
-            return result
-
-        def extract_date(datetime) -> str:
-            x = re.findall('[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.', datetime)
-            if x:
-                return x[0]
-            return None
-
-        #이메일 처리
-        def cleanup_content(content) -> str:
-            result = re.sub('[\w.+-]+@[\w-]+\.[\w.-]+', '', content)
-            return result
-
-        def get_news_reactions(url) -> dict:
-            react_response = requests.get(url, headers=headers)
-            react_json = re.findall('(?<=jQuery.{34}\()(.*)(?=\);)', react_response.text)[0]
-            json_data = json.loads(react_json)
-
-            _reactions = {}
-            for data in json_data['contents']:
-                if data['serviceId'] == 'NEWS':
-                    for reaction in data['reactions']:
-                        key = reaction['reactionType']
-                        val = reaction['count']
-                        _reactions[key] = val
-            return _reactions
 
         #네이버뉴스 최종 데이터 
         news_data = []
