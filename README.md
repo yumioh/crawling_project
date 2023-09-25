@@ -12,4 +12,8 @@
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/8547f4ff-fd7f-478c-8ad4-dc66fc0c8475" width="50%" height="20%" />
 
 
+### 2. 네이버 뉴스 크롤링
+    - 전체기사 일자별 카운트
+    - 본ㄴ민이 비어있는 기사를 제외하고 __삼성전자__글자가 들어간 뉴스들만 분류
+
 
