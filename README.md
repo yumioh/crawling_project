@@ -7,7 +7,7 @@
       - news.csv파일로 저장
 
       
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/8547f4ff-fd7f-478c-8ad4-dc66fc0c8475" width="80%" height="50%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/8547f4ff-fd7f-478c-8ad4-dc66fc0c8475" width="60%" height="30%"/>
 
 
 
