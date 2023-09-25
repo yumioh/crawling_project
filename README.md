@@ -8,7 +8,7 @@
 
 
 
-`![image](https://github.com/yumioh/data_analysis/assets/38059057/cf27315e-561a-4c24-9980-3d64b3b69d3d){: width="80%" height="50%"}`
+`![image](https://github.com/yumioh/data_analysis/assets/38059057/cf27315e-561a-4c24-9980-3d64b3b69d3d)`
 
 
 
