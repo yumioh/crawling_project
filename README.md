@@ -6,9 +6,8 @@
       - 기사내용 전차리 
       - news.csv파일로 저장
 
-
-
-`![image](https://github.com/yumioh/data_analysis/assets/38059057/cf27315e-561a-4c24-9980-3d64b3b69d3d)`
+      
+![image](https://github.com/yumioh/data_analysis/assets/38059057/38fbd70f-3166-4c52-8da0-862847772e1c){: width="50" height="50"}
 
 
 
