@@ -8,7 +8,8 @@
       - news.csv파일로 저장
 ```
 
-#### 비동기 방식으로 기사반응 데이터값 가져 옴 (단, 카테고리가 여러개로 분류 될 경우 가장 앞에 있는 카테고리로)
+
+#### 기사반응은 비동기 방식으로 (단, 카테고리가 여러개로 분류 될 경우 가장 앞에 있는 카테고리로)
 
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/8547f4ff-fd7f-478c-8ad4-dc66fc0c8475" width="60%" height="30%" align="center" />
 
