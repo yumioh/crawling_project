@@ -45,7 +45,7 @@ def cleanup_content(text) :
        text.select_one('strong').decompose()
     for value in text.select('span.end_photo_org') :
         value.select_one('em').decompose()
-    if len(text.getText().split('=')) != 1 : # 영문신문인 경우 =이 없음
+    if len(text.getText().split('=')) != 1 : # 영문신문인 경우 = 이 없음
        content = text.getText().split('=')[2]
     else : 
         content = text.getText()
