@@ -82,6 +82,9 @@ mid = 'sec'
 oid = '001' #연합뉴스 001
 page = 1
 
+#최종 데이터 저장
+rows = []
+
 # 8월달만 추출
 for date in range(20230831,20230830,-1) :
     #8월 한달간 데이터 추출
@@ -92,7 +95,7 @@ for date in range(20230831,20230830,-1) :
             'mid': mid,
             'oid': oid,
             'date' : date,
-            'page': 2 #str(page)
+            'page': 1 #str(page)
         }
         print("수집날짜: {} ".format(date))
 
@@ -106,9 +109,7 @@ for date in range(20230831,20230830,-1) :
         
         if page != now_page:
             break
-
-        #최종 데이터 저장
-        rows = []
+        
         for elements in newsList_bs.select('div.list_body.newsflash_body > ul li'):
             url = elements.select_one('a').attrs['href']
             article_response = requests.get(url , headers=headers)
@@ -130,7 +131,7 @@ for date in range(20230831,20230830,-1) :
                 news_num = article_bs.select_one('div._reactionModule.u_likeit').attrs['data-cid']
                 if news_num :
                     news_url =f'https://news.like.naver.com/v1/search/contents?q=NEWS%5B78526(period)%5D%7CNEWS%5B{news_num}%5D'
-                    print(news_url)
+                    #print(news_url)
                     row.extend([get_news_reactions(news_url)])
                 else :
                     row.extend([]) #반응이 없는 경우 없는경우 empty dict
@@ -146,7 +147,7 @@ for date in range(20230831,20230830,-1) :
                 news_num = article_bs.select_one('div._reactionModule.u_likeit').attrs['data-cid']
                 if news_num :
                     news_url =f'https://sports.like.naver.com/v1/search/contents?q=SPORTS%5B{news_num}%5D'
-                    print(news_url)
+                   #print(news_url)
                     row.extend([get_news_reactions(news_url)])
                 else :
                     row.extend([]) #없는경우 empty dict
@@ -169,8 +170,7 @@ for date in range(20230831,20230830,-1) :
             #최종 데이터 저장
             if len(row) > 0:
                 rows.append(row)
-        print(rows)
-
+                
         page += 1
 
 with open("news.csv", mode="w", encoding="utf-8", newline="") as file:
