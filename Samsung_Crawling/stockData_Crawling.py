@@ -76,7 +76,7 @@ while True :
     page += 1
 
 # print(rows)
-with open("outputs.csv", mode="w", encoding="utf-8", newline="") as file:
+with open("stocks.csv", mode="w", encoding="utf-8", newline="") as file:
     writer = csv.writer(file)
     writer.writerow(title)
     for row in rows:
