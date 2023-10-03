@@ -8,11 +8,11 @@ headers = {
     'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
 }
 
-url = 'https://n.news.naver.com/mnews/article/001/0014164610'
+url = 'https://n.news.naver.com/mnews/article/001/0014162532'
 sport_url = 'https://sports.naver.com/news?oid=001&aid=0014164596'
 enter_url = 'https://entertain.naver.com/read?oid=001&aid=0014164167'
 
-newsList_response = requests.get(enter_url, headers=headers)
+newsList_response = requests.get(url, headers=headers)
 newsList_bs = BeautifulSoup(newsList_response.text, 'html.parser')
 
 # #전처리를 위한 정규식
@@ -39,21 +39,22 @@ def email_reg(content) -> str:
     return result
 
 #일반 신문 태그 제거 
-def extractTags(text) :
+def cleanup_content(text) :
     content = ''
     if text.select_one('strong') :
        text.select_one('strong').decompose()
     if text.select_one('span.end_photo_org > em') :
        for value in text.select('span.end_photo_org') :
            value.select_one('em').decompose()
-    if len(text.getText().split('=')) != 1 : # 영문신문인 경우 = 이 없음
-       content = text.getText().split('=')[2]
-    else : 
+    #print(text.getText().split('연합뉴스)'))
+    if len(text.getText().split('연합뉴스)')) == 2 : 
+       content = text.getText().split('연합뉴스)')[1]
+    else:
         content = text.getText()
-    result = re.sub(' +', ' ', content)
-    return(email_reg(result.strip()))
+    result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
+    return(email_reg(result))
 
-def sports_extractTags(text) :
+def sports_cleanup_content(text) :
     for pTag in text.select('p') :
         pTag.decompose()
     for divTag in text.select('div'):
@@ -61,8 +62,11 @@ def sports_extractTags(text) :
     if text.select_one('span.end_photo_org em') :
         for emTag in text.select('span.end_photo_org') :
             emTag.select_one('em').decompose()
-    content = text.getText().split('연합뉴스)')[1]
-    result = re.sub(' +', ' ', content)
+    if len(text.getText().split('연합뉴스)')) == 2 : 
+       content = text.getText().split('연합뉴스)')[1]
+    else:
+        content = text.getText()
+    result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
     return(result)
 
 def enter_cleanup_content(text) :
@@ -72,13 +76,11 @@ def enter_cleanup_content(text) :
     if text.select_one('span.end_photo_org > em') :
        for value in text.select('span.end_photo_org') :
            value.select_one('em').decompose()
-    if len(text.getText().split('=')) == 1 : # 영문신문인 경우 = 이 없음
-       content = text.getText()
-    elif len(text.getText().split('=')) == 2:
-       content = text.getText().split('연합뉴스)')[1] #기자명이 없는 경우
-    else :
-        content = text.getText().split('=')[2]
-    result = re.sub(' +', ' ', content)
+    if len(text.getText().split('연합뉴스)')) == 2 : 
+       content = text.getText().split('연합뉴스)')[1]
+    else:
+        content = text.getText()
+    result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
     return(email_reg(result.replace('\n','').strip()))
 
 #extractTag(newsList_bs)
@@ -86,7 +88,7 @@ text = newsList_bs.select_one('article#dic_area')
 #newsList_bs.p.decompose()
 sports_text = newsList_bs.select_one('div#newsEndContents')
 enter_text = newsList_bs.select_one('#articeBody')
-print(enter_cleanup_content(enter_text))
+print(cleanup_content(text))
 #print(contents.select_one('strong').decompose())
 #print(contents)
 #extractTags(contents)
