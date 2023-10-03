@@ -26,15 +26,15 @@ def cleanup_content(text) :
     if text.select_one('strong') :
        text.select_one('strong').decompose()
     if text.select_one('span.end_photo_org > em') :
-       for value in text.select('span.end_photo_org') :
-           value.select_one('em').decompose()
-    if len(text.getText().split('=')) == 1 : # 영문신문인 경우 = 이 없음
-       content = text.getText()
-    elif len(text.getText().split('=')) == 2:
-       content = text.getText().split('연합뉴스)')[1] #기자명이 없는 경우
-    else :
-        content = text.getText().split('=')[2]
-    result = re.sub(' +', ' ', content)
+        for emTag in text.select('span.end_photo_org') :
+            if emTag.select_one('em') :
+                emTag.select_one('em').decompose()
+            else : emTag
+    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
+       content = text.getText().split('연합뉴스)')[1]
+    else:
+        content = text.getText()
+    result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
     return(email_reg(result.replace('\n','').strip()))
 
 #스포츠 기사 내용 전처리
@@ -45,9 +45,14 @@ def sports_cleanup_content(text) :
         divTag.decompose()
     if text.select_one('span.end_photo_org em') :
         for emTag in text.select('span.end_photo_org') :
-            emTag.select_one('em').decompose()
-    content = text.getText().split('연합뉴스)')[1]
-    result = re.sub(' +', ' ', content)
+            if emTag.select_one('em'):
+                emTag.select_one('em').decompose()
+            else : emTag
+    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
+       content = text.getText().split('연합뉴스)')[1]
+    else:
+        content = text.getText()
+    result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
     return(email_reg(result.replace('\n','').strip()))
 
 #연예 기사 내용 전처리
@@ -56,15 +61,15 @@ def enter_cleanup_content(text) :
     if text.select_one('strong') :
        text.select_one('strong').decompose()
     if text.select_one('span.end_photo_org > em') :
-       for value in text.select('span.end_photo_org') :
-           value.select_one('em').decompose()
-    if len(text.getText().split('=')) == 1 : # 영문신문인 경우 = 이 없음
-       content = text.getText()
-    elif len(text.getText().split('=')) == 2:
-       content = text.getText().split('연합뉴스)')[1] #기자명이 없는 경우
-    else :
-        content = text.getText().split('=')[2]
-    result = re.sub(' +', ' ', content)
+       for emTag in text.select('span.end_photo_org') :
+            if emTag.select_one('em'):
+                emTag.select_one('em').decompose()
+            else : emTag
+    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
+       content = text.getText().split('연합뉴스)')[1]
+    else:
+        content = text.getText()
+    result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
     return(email_reg(result.replace('\n','').strip()))
 
 def get_news_reactions(url) :
@@ -76,27 +81,24 @@ def get_news_reactions(url) :
             all_count += reaction['count']
     return all_count
 
-#prams값
-mode = 'LPOD'
-mid = 'sec'
-oid = '001' #연합뉴스 001
-page = 1
-
 #최종 데이터 저장
 rows = []
 
 # 8월달만 추출
-for date in range(20230831,20230830,-1) :
+for date in range(20230829,20230828,-1) :
     #8월 한달간 데이터 추출
+    page = 1
+    print('page : ', page)
+
     while True:
-        print('page : ', page)
         prams = {
-            'mode': mode,
-            'mid': mid,
-            'oid': oid,
-            'date' : date,
-            'page': 1 #str(page)
+            'mode': 'LPOD',
+            'mid': 'sec',
+            'oid': '001',
+            'date' : date,  #연합뉴스 001
+            'page': str(page)
         }
+
         print("수집날짜: {} ".format(date))
 
         #연합뉴스 전체 기사리스트
@@ -114,7 +116,8 @@ for date in range(20230831,20230830,-1) :
             url = elements.select_one('a').attrs['href']
             article_response = requests.get(url , headers=headers)
             article_bs = BeautifulSoup(article_response.text, 'html.parser')
-            
+            print(url) #수집하는 뉴스 url
+
             row = []
             if article_bs.select_one('h2#title_area') != None:
                 print('일반기사')
@@ -165,7 +168,7 @@ for date in range(20230831,20230830,-1) :
                     row.extend([get_news_reactions(news_url)])
                 else :
                     row.extend([]) #없는경우 empty dict
-            else:
+            else: #해당하는 테그가 없을시
                 print('Something is worong : {}', url)
             #최종 데이터 저장
             if len(row) > 0:
@@ -173,7 +176,7 @@ for date in range(20230831,20230830,-1) :
                 
         page += 1
 
-with open("news.csv", mode="w", encoding="utf-8", newline="") as file:
+with open("news230826.csv", mode="w", encoding="utf-8", newline="") as file:
     writer = csv.writer(file)
     for row in rows:
         writer.writerow(row)    
