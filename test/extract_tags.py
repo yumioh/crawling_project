@@ -62,8 +62,8 @@ def sports_cleanup_content(text) :
     if text.select_one('span.end_photo_org em') :
         for emTag in text.select('span.end_photo_org') :
             emTag.select_one('em').decompose()
-    if len(text.getText().split('연합뉴스)')) == 2 : 
-       content = text.getText().split('연합뉴스)')[1]
+    if len(text.getText().split('기자 =')) == 2 : 
+       content = text.getText().split('기자 =')[1]
     else:
         content = text.getText()
     result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()

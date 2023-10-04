@@ -30,8 +30,8 @@ def cleanup_content(text) :
             if emTag.select_one('em') :
                 emTag.select_one('em').decompose()
             else : emTag
-    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
-       content = text.getText().split('연합뉴스)')[1]
+    if len(text.getText().split('기자 =')) == 2 : #연합누스) 기준으로 본문 나눔
+       content = text.getText().split('')[1]
     else:
         content = text.getText()
     result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
@@ -48,8 +48,8 @@ def sports_cleanup_content(text) :
             if emTag.select_one('em'):
                 emTag.select_one('em').decompose()
             else : emTag
-    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
-       content = text.getText().split('연합뉴스)')[1]
+    if len(text.getText().split('기자 =')) == 2 : #연합누스) 기준으로 본문 나눔
+       content = text.getText().split('기자 =')[1]
     else:
         content = text.getText()
     result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
@@ -65,8 +65,8 @@ def enter_cleanup_content(text) :
             if emTag.select_one('em'):
                 emTag.select_one('em').decompose()
             else : emTag
-    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
-       content = text.getText().split('연합뉴스)')[1]
+    if len(text.getText().split('기자 =')) == 2 : #연합누스) 기준으로 본문 나눔
+       content = text.getText().split('기자 =')[1]
     else:
         content = text.getText()
     result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
