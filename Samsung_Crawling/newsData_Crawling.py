@@ -30,8 +30,8 @@ def cleanup_content(text) :
             if emTag.select_one('em') :
                 emTag.select_one('em').decompose()
             else : emTag
-    if len(text.getText().split('기자 =')) == 2 : #연합누스) 기준으로 본문 나눔
-       content = text.getText().split('')[1]
+    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
+       content = text.getText().split('연합뉴스)')[1]
     else:
         content = text.getText()
     result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
@@ -48,8 +48,8 @@ def sports_cleanup_content(text) :
             if emTag.select_one('em'):
                 emTag.select_one('em').decompose()
             else : emTag
-    if len(text.getText().split('기자 =')) == 2 : #연합누스) 기준으로 본문 나눔
-       content = text.getText().split('기자 =')[1]
+    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
+       content = text.getText().split('연합뉴스)')[1]
     else:
         content = text.getText()
     result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
@@ -65,8 +65,8 @@ def enter_cleanup_content(text) :
             if emTag.select_one('em'):
                 emTag.select_one('em').decompose()
             else : emTag
-    if len(text.getText().split('기자 =')) == 2 : #연합누스) 기준으로 본문 나눔
-       content = text.getText().split('기자 =')[1]
+    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
+       content = text.getText().split('연합뉴스)')[1]
     else:
         content = text.getText()
     result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
@@ -85,7 +85,7 @@ def get_news_reactions(url) :
 rows = []
 
 # 8월달만 추출
-for date in range(20230829,20230828,-1) :
+for date in range(20230831,20230830,-1) :
     #8월 한달간 데이터 추출
     page = 1
     print('page : ', page)
@@ -96,10 +96,12 @@ for date in range(20230829,20230828,-1) :
             'mid': 'sec',
             'oid': '001',
             'date' : date,  #연합뉴스 001
-            'page': str(page)
+            'page': 1 #str(page)
         }
 
         print("수집날짜: {} ".format(date))
+
+
 
         #연합뉴스 전체 기사리스트
         newsList_response = requests.get("https://news.naver.com/main/list.naver", headers=headers, params=prams)
@@ -121,7 +123,8 @@ for date in range(20230829,20230828,-1) :
             row = []
             if article_bs.select_one('h2#title_area') != None:
                 print('일반기사')
-                title = article_bs.select_one('h2#title_area').getText().strip()
+                title_text = article_bs.select_one('h2#title_area').text.strip()
+                title = re.sub(r'["“”‘’`]','',title_text)
                 article_datetime = article_bs.select_one('span.media_end_head_info_datestamp_time._ARTICLE_MODIFY_DATE_TIME').getText().replace("\n", "")
                 article_date = extract_date(article_datetime)
                 #본문내용
@@ -140,7 +143,8 @@ for date in range(20230829,20230828,-1) :
                     row.extend([]) #반응이 없는 경우 없는경우 empty dict
             elif article_bs.select_one('div.news_headline h4.title') != None:
                 print('스포츠기사')
-                title = article_bs.select_one('div.news_headline h4.title').getText().strip()
+                title_text = article_bs.select_one('div.news_headline h4.title').text.strip()
+                title = re.sub(r'["“”‘’`]','',title_text)
                 article_datetime = article_bs.select_one('div.news_headline div.info > span').getText().replace("\n", "")
                 article_date = extract_date(article_datetime)
                 #본문내용
@@ -156,7 +160,8 @@ for date in range(20230829,20230828,-1) :
                     row.extend([]) #없는경우 empty dict
             elif article_bs.select_one('h2.end_tit') != None:
                 print('연예기사')
-                title = article_bs.select_one('h2.end_tit').getText().strip()
+                title_text = article_bs.select_one('h2.end_tit').text.strip()
+                title = re.sub(r'["“”‘’`]','',title_text)
                 article_datetime = article_bs.select_one('span.author > em').getText().replace("\n", "")
                 article_date = extract_date(article_datetime)
                 #본문내용
@@ -176,7 +181,7 @@ for date in range(20230829,20230828,-1) :
                 
         page += 1
 
-with open("news230826.csv", mode="w", encoding="utf-8", newline="") as file:
+with open("news230830.csv", mode="w", encoding="utf-8-sig", newline="") as file:
     writer = csv.writer(file)
     for row in rows:
         writer.writerow(row)    
