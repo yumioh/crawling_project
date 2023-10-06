@@ -8,7 +8,7 @@ headers = {
     'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
 }
 
-url = 'https://n.news.naver.com/mnews/article/001/0014162532'
+url = 'https://n.news.naver.com/mnews/article/001/0014164621'
 sport_url = 'https://sports.naver.com/news?oid=001&aid=0014164596'
 enter_url = 'https://entertain.naver.com/read?oid=001&aid=0014164167'
 
@@ -47,8 +47,8 @@ def cleanup_content(text) :
        for value in text.select('span.end_photo_org') :
            value.select_one('em').decompose()
     #print(text.getText().split('연합뉴스)'))
-    if len(text.getText().split('연합뉴스)')) == 2 : 
-       content = text.getText().split('연합뉴스)')[1]
+    if len(text.getText().split('기자 =')) == 2 : 
+       content = text.getText().split('기자 =')[1]
     else:
         content = text.getText()
     result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()

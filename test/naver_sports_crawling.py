@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
+import re
 
 article_url = 'https://sports.news.naver.com/news?oid=445&aid=0000143530'
 headers = {'User-Agent':'Mozila/5.0'}
@@ -16,6 +17,10 @@ for div in divs:
 ps = content.select('p')
 for p in ps:
     p.decompose()
+    
+text = '"""testsetsese"""  ""testsetsese""'
+
+print(text.replace('"',""))
 
 print(title.text)
 print(content.text)
