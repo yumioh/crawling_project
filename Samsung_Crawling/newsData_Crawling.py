@@ -5,7 +5,7 @@ import json
 from bs4 import BeautifulSoup
 
 headers = {
-    'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'
+    'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36'
 }
 
 #날짜만 뽑기
@@ -148,7 +148,6 @@ for date in range(20230831,20230830,-1) :
             elif article_bs.select_one('div.news_headline h4.title') != None:
                 print('스포츠기사')
                 title_text = article_bs.select_one('div.news_headline h4.title').text.strip()
-                print(title_text)
                 title = re.sub(r'[\"\'\,]', '', title_text)
                 article_datetime = article_bs.select_one('div.news_headline div.info > span').getText().replace("\n", "")
                 article_date = extract_date(article_datetime)
@@ -162,7 +161,7 @@ for date in range(20230831,20230830,-1) :
                    #print(news_url)
                     row.extend([get_news_reactions(news_url)])
                 else :
-                    row.extend([]) #없는경우 empty dict
+                    row.extend([]) #없는경우 empty dictSamsung_Crawling/newsData_Crawling.py
             elif article_bs.select_one('h2.end_tit') != None:
                 print('연예기사')
                 title_text = article_bs.select_one('h2.end_tit').text.strip()
