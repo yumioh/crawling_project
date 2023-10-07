@@ -18,10 +18,6 @@ ps = content.select('p')
 for p in ps:
     p.decompose()
     
-text = '"""testsetsese"""  ""testsetsese""'
-
-print(text.replace('"',""))
-
 print(title.text)
 print(content.text)
 

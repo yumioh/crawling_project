@@ -30,12 +30,12 @@ def cleanup_content(text) :
             if emTag.select_one('em') :
                 emTag.select_one('em').decompose()
             else : emTag
-    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
+    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 내용 추출
        content = text.getText().split('연합뉴스)')[1]
     else:
         content = text.getText()
-    result = re.sub(' +', ' ', content).strip()
-    result = re.sub(r'[\r\n\t\"\'\,]', '', result)
+    result = re.sub(' +', ' ', content).strip() 
+    result = re.sub(r'[\r\n\t\"\'\,]', '', result) #csv파일인 경우 문자열에 ,가 있으면 ""으로 구분
     return(email_reg(result))
 
 #스포츠 기사 내용 전처리
@@ -49,7 +49,7 @@ def sports_cleanup_content(text) :
             if emTag.select_one('em'):
                 emTag.select_one('em').decompose()
             else : emTag
-    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
+    if len(text.getText().split('연합뉴스)')) == 2 : #연합뉴스) 기준으로 본문 내용 추출
        content = text.getText().split('연합뉴스)')[1]
     else:
         content = text.getText()
@@ -67,7 +67,7 @@ def enter_cleanup_content(text) :
             if emTag.select_one('em'):
                 emTag.select_one('em').decompose()
             else : emTag
-    if len(text.getText().split('연합뉴스)')) == 2 : #연합누스) 기준으로 본문 나눔
+    if len(text.getText().split('연합뉴스)')) == 2 : #연합뉴스) 기준으로 본문 내용 추출
        content = text.getText().split('연합뉴스)')[1]
     else:
         content = text.getText()
@@ -114,6 +114,7 @@ for date in range(20230831,20230830,-1) :
         #현재 페이지
         now_page = int(newsList_bs.select_one('div.paging strong').text.strip())
         
+        #페이지 테그와 현재 페이지가 동일하지 않으면 그전 페이지를 마지막 페이지로 인지
         if page != now_page:
             break
         
@@ -121,13 +122,13 @@ for date in range(20230831,20230830,-1) :
             url = elements.select_one('a').attrs['href']
             article_response = requests.get(url , headers=headers)
             article_bs = BeautifulSoup(article_response.text, 'html.parser')
-            print(url) #수집하는 뉴스 url
+            #print(url) #수집하는 뉴스 url
 
             row = []
             if article_bs.select_one('h2#title_area') != None:
                 print('일반기사')
                 title_text = article_bs.select_one('h2#title_area').text.strip()
-                title = re.sub(r'[\"\'\,]', '', title_text)
+                title = re.sub(r'[\"\'\,]', '', title_text) #타이틀에 ,있으면 문자열을 "" 구분
                 article_datetime = article_bs.select_one('span.media_end_head_info_datestamp_time._ARTICLE_MODIFY_DATE_TIME').getText().replace("\n", "")
                 article_date = extract_date(article_datetime)
                 #본문내용
@@ -185,6 +186,7 @@ for date in range(20230831,20230830,-1) :
                 
         page += 1
 
+#csv파일로 만들시 한글깨짐 방지를 위해 인코딩 utf-8-sig
 with open("news230830.csv", mode="w", encoding="utf-8-sig", newline="") as file:
     writer = csv.writer(file)
     for row in rows:
