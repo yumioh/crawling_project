@@ -99,7 +99,7 @@ for date in range(20230831,20230830,-1) :
             'mid': 'sec',
             'oid': '001',
             'date' : date,  #연합뉴스 001
-            'page': 1 #str(page)
+            'page': str(page)
         }
 
         print("수집날짜: {} ".format(date))
