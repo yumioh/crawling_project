@@ -34,8 +34,9 @@ def cleanup_content(text) :
        content = text.getText().split('연합뉴스)')[1]
     else:
         content = text.getText()
-    result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
-    return(email_reg(result.replace('\n','').strip()))
+    result = re.sub(' +', ' ', content).strip()
+    result = re.sub(r'[\r\n\t\"\'\,]', '', result)
+    return(email_reg(result))
 
 #스포츠 기사 내용 전처리
 def sports_cleanup_content(text) :
@@ -52,8 +53,9 @@ def sports_cleanup_content(text) :
        content = text.getText().split('연합뉴스)')[1]
     else:
         content = text.getText()
-    result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
-    return(email_reg(result.replace('\n','').strip()))
+    result = re.sub(' +', ' ', content).strip()
+    result = re.sub(r'[\r\n\t\"\'\,]', '', result)
+    return(email_reg(result))
 
 #연예 기사 내용 전처리
 def enter_cleanup_content(text) :
@@ -69,8 +71,9 @@ def enter_cleanup_content(text) :
        content = text.getText().split('연합뉴스)')[1]
     else:
         content = text.getText()
-    result = re.sub(' +', ' ', content).replace('\n','').replace('\t','').strip()
-    return(email_reg(result.replace('\n','').strip()))
+    result = re.sub(' +', ' ', content).strip()
+    result = re.sub(r'[\r\n\t\"\'\,]', '', result)
+    return(email_reg(result))
 
 def get_news_reactions(url) :
     react_response = requests.get(url, headers=headers)
@@ -124,7 +127,7 @@ for date in range(20230831,20230830,-1) :
             if article_bs.select_one('h2#title_area') != None:
                 print('일반기사')
                 title_text = article_bs.select_one('h2#title_area').text.strip()
-                title = re.sub(r'["“”‘’`]','',title_text)
+                title = re.sub(r'[\"\'\,]', '', title_text)
                 article_datetime = article_bs.select_one('span.media_end_head_info_datestamp_time._ARTICLE_MODIFY_DATE_TIME').getText().replace("\n", "")
                 article_date = extract_date(article_datetime)
                 #본문내용
@@ -144,7 +147,8 @@ for date in range(20230831,20230830,-1) :
             elif article_bs.select_one('div.news_headline h4.title') != None:
                 print('스포츠기사')
                 title_text = article_bs.select_one('div.news_headline h4.title').text.strip()
-                title = re.sub(r'["“”‘’`]','',title_text)
+                print(title_text)
+                title = re.sub(r'[\"\'\,]', '', title_text)
                 article_datetime = article_bs.select_one('div.news_headline div.info > span').getText().replace("\n", "")
                 article_date = extract_date(article_datetime)
                 #본문내용
@@ -161,7 +165,7 @@ for date in range(20230831,20230830,-1) :
             elif article_bs.select_one('h2.end_tit') != None:
                 print('연예기사')
                 title_text = article_bs.select_one('h2.end_tit').text.strip()
-                title = re.sub(r'["“”‘’`]','',title_text)
+                title = re.sub(r'[\"\'\,]', '', title_text)
                 article_datetime = article_bs.select_one('span.author > em').getText().replace("\n", "")
                 article_date = extract_date(article_datetime)
                 #본문내용
