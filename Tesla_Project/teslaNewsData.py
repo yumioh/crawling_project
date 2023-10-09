@@ -34,7 +34,7 @@ def remove_time_prefix(input_str) :
     #시간을 24시간 형식으로 변경 
     if "오후" in input_str:
       date_time = date_time.replace(hour=date_time.hour + 12)
-    #datetime을 문자열로 출력
+    #datetime을 문자열로 ,
     formatted_date_time = date_time.strftime("%Y-%m-%d %H:%M:%S")
   else :
       formatted_date_time = input_str
