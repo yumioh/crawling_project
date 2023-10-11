@@ -3,6 +3,8 @@ import re
 import requests
 import json
 from bs4 import BeautifulSoup
+from time import sleep
+import logging
 
 headers = {
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36'
@@ -76,19 +78,24 @@ def enter_cleanup_content(text) :
     return(email_reg(result))
 
 def get_news_reactions(url) :
-    react_response = requests.get(url, headers=headers)
-    json_data = react_response.json()
-    all_count = 0
-    for data in json_data['contents']:
-        for reaction in data['reactions']:
-            all_count += reaction['count']
+    try : 
+        react_response = requests.get(url, headers=headers)
+        json_data = react_response.json()
+        all_count = 0
+        for data in json_data['contents']:
+            for reaction in data['reactions']:
+                all_count += reaction['count']
+    except Exception as e:
+        logging.warning(f'Http request failed with url ={url}')
+        logging.warning(e)
+        raise e
     return all_count
 
 #최종 데이터 저장
 rows = []
 
 # 8월달만 추출
-for date in range(20230831,20230830,-1) :
+for date in range(20230831,20230800,-1) :
     #8월 한달간 데이터 추출
     page = 1
     print('page : ', page)
