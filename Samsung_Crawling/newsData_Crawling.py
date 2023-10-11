@@ -199,3 +199,4 @@ with open("news230830.csv", mode="w", encoding="utf-8-sig", newline="") as file:
         writer.writerow(row)    
 
 print('종료')  
+
