@@ -110,8 +110,10 @@ def get_news_list(keyword, toDate, fromDate) :
     for item in news_list :
       if len(item.select("div.info_group a")) == 2 :
         news.append(get_news(item.select("div.info_group a")[1]['href']))
-    #return pd.DataFrame(news, columns=['title','date','media','content','url'])
-    return news
+    return pd.DataFrame(news, columns=['title','date','media','content','url'])
+    #return news
+
+
 
 
 keyword = "테슬라"
