@@ -21,8 +21,7 @@ def clenaup_content(text) :
 
 #날짜형식 변경
 def remove_time_prefix(input_str) :
-  if "오후" or "오전" in input_str :
-    print(input_str)
+  if any([x in input_str for x in ["오전", "오후"]]):
     #기사입력, 오후, 오전 반환
     date_time_str = re.sub(r'기사입력|오후 |오전 ', '', input_str).strip()
     #2023.10.07. 05:21
@@ -33,11 +32,12 @@ def remove_time_prefix(input_str) :
     
     #시간을 24시간 형식으로 변경 
     if "오후" in input_str:
-      date_time = date_time.replace(hour=date_time.hour + 12)
-    #datetime을 문자열로 ,
+      date_time = date_time.replace(hour = date_time.hour + 12)
+    #datetime을 문자열로 변경
     formatted_date_time = date_time.strftime("%Y-%m-%d %H:%M:%S")
   else :
       formatted_date_time = input_str
+  print(formatted_date_time)
   return formatted_date_time
 
 #네이버 뉴스기사 정보 가져오기 
@@ -112,7 +112,8 @@ def get_news_list(keyword, toDate, fromDate) :
         news.append(get_news(item.select("div.info_group a")[1]['href']))
     return pd.DataFrame(news, columns=['title','date','media','content','url'])
     #return news
-    
+
+
 
 
 keyword = "테슬라"
