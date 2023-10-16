@@ -93,23 +93,28 @@ def get_news(URL) :
 def get_news_list(keyword, toDate, fromDate) :
     news = []
     #뉴스 리스트 페이지
-    page = 1
-    
-    while True:
-      start = (page-1)*10 + 1
-      URL = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query='+ keyword +'&sort=1&photo=0&field=0&pd=3&ds='+toDate+'&de='+fromDate+'&mynews=0&office_type=0&office_section_code=0&news_office_checked=&office_category=0&service_area=0&nso=so:dd,p:from'+fromDate.replace(".","")+'to'+toDate.replace(".","")+',a:all&start='+str(start)
-      print(URL)
-      res = requests.get(URL,headers = headers)
-      soup = BeautifulSoup(res.text, "html.parser")
+    for date in pd.date_range(toDate, fromDate) :
+      page = 1
+      while True:
+        start = (page-1) * 10 + 1
+        print(page)
+        URL = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query='+ keyword +'&sort=1&photo=0&field=0&pd=3&ds='+toDate+'&de='+fromDate+'&mynews=0&office_type=0&office_section_code=0&news_office_checked=&office_category=0&service_area=0&nso=so:dd,p:from'+fromDate.replace(".","")+'to'+toDate.replace(".","")+',a:all&start='+str(start)
+        print(URL)
+        res = requests.get(URL,headers = headers)
+        soup = BeautifulSoup(res.text, "html.parser")
 
-      #print(now_page = int(soup.select_one('div.paging strong').text.strip()))
+        #마지막 페이지 일때 나타나는 태그
+        if soup.select_one("div.api_noresult_wrap") :
+          print("크롤링 끝")
+          break
 
-      news_list = soup.select("ul.list_news li")
-      for item in news_list :
-        if len(item.select("div.info_group a")) == 2 :
-          news.append(get_news(item.select("div.info_group a")[1]['href']))
-      page += 1
-    return pd.DataFrame(news, columns=['title','date','media','content'])
+        news_list = soup.select("ul.list_news li")
+        
+        for item in news_list :
+          if len(item.select("div.info_group a")) == 2 :
+            news.append(get_news(item.select("div.info_group a")[1]['href']))
+        page += 1
+      return pd.DataFrame(news, columns=['title','date','media','content'])
     #return news
 
 
@@ -119,7 +124,7 @@ fromDate = "2023.10.07"
 
 rows = get_news_list(keyword, toDate, fromDate)
 
-rows.to_csv('tesla.csv', encoding='utf-8')
+rows.to_csv('tesla.csv', encoding='utf-8-sig')
 
 print(rows)
 
