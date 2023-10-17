@@ -48,21 +48,23 @@ def get_news(URL) :
   content_element = ""
 
   if soup.select_one("h2#title_area span") != None:#일반 기사
-    title_element = soup.select_one("h2#title_area span") 
+    title_element = soup.select_one("h2#title_area span") #제목
     date_element = soup.select_one("span.media_end_head_info_datestamp_time") #기사작성일시
     media_element = soup.select_one("a.media_end_head_top_logo img") #뉴스매체명
     content_element = soup.select_one("div#newsct_article") #기사원문
   elif soup.select_one('h2.end_tit') != None : #연예기사
-    title_element = soup.select_one('h2.end_tit') #제목
-    date_element = soup.select_one("span.author > em") #기사작성일시
-    media_element = soup.select_one("a.press_logo img") #뉴스매체명
-    content_element = soup.select_one("div#articeBody") #기사원문
-  elif soup.select_one('div.news_headline h4.title') != None : #스포츠기사
-    title_element = soup.select_one("div.news_headline h4.title") #제목
-    date_element = soup.select_one("div.info span") #기사작성일시
-    media_element = soup.select_one("span.logo img") #뉴스매체명
-    content_element = soup.select_one("div#newsEndContents") #기사원문
-
+    title_element = soup.select_one('h2.end_tit') 
+    date_element = soup.select_one("span.author > em")
+    media_element = soup.select_one("a.press_logo img") 
+    content_element = soup.select_one("div#articeBody") 
+  elif soup.select_one('div.news_headline h4.title') != None: #스포츠기사
+    title_element = soup.select_one("div.news_headline h4.title")
+    date_element = soup.select_one("div.info span") 
+    media_element = soup.select_one("span.logo img") 
+    content_element = soup.select_one("div#newsEndContents") 
+  else :
+    None
+  
   if title_element:
     title = title_element.text.strip()
   else:
@@ -87,7 +89,8 @@ def get_news(URL) :
     content = re.sub(r'[\r\n\t\"\'\,]', '', content)
   else:
     content = "No Content Found"
-  return (title, remove_time_prefix(date), media, email_reg(content))
+  print(title, URL)
+  return (title, remove_time_prefix(date), media, email_reg(content), URL)
 
 #뉴스 리스트 들고 오기
 def get_news_list(keyword, toDate, fromDate) :
@@ -114,16 +117,17 @@ def get_news_list(keyword, toDate, fromDate) :
           if len(item.select("div.info_group a")) == 2 :
             news.append(get_news(item.select("div.info_group a")[1]['href']))
         page += 1
-      return pd.DataFrame(news, columns=['title','date','media','content'])
+      return pd.DataFrame(news, columns=['title','date','media','content','url'])
     #return news
 
-
 keyword = "테슬라"
-toDate = "2023.10.07"
-fromDate = "2023.10.07"
+toDate = "2023.05.01"
+fromDate = "2023.05.31"
 
+#뉴스 
+# 수집 데이터
 rows = get_news_list(keyword, toDate, fromDate)
-
+#csv로 파일 저장
 rows.to_csv('tesla.csv', encoding='utf-8-sig')
 
 print(rows)
