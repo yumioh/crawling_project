@@ -3,7 +3,7 @@ import re
 import requests
 import json
 from bs4 import BeautifulSoup
-from time import sleep
+from requests.adapters import HTTPAdapter, Retry
 import logging
 
 headers = {
@@ -79,14 +79,20 @@ def enter_cleanup_content(text) :
 
 def get_news_reactions(url) :
     try : 
-        react_response = requests.get(url, headers=headers)
+        session = requests.Session()
+        retry = Retry(connect=3, backoff_factor=0.5)
+        adapter = HTTPAdapter(max_retries=retry)
+        session.mount('http://', adapter)
+        session.mount('https://', adapter)
+        
+        react_response = session.get(url, headers=headers)
         json_data = react_response.json()
         all_count = 0
         for data in json_data['contents']:
             for reaction in data['reactions']:
                 all_count += reaction['count']
     except Exception as e:
-        logging.warning(f'Http request failed with url ={url}')
+        logging.warning(f'Http request failed with url = {url}')
         logging.warning(e)
         raise e
     return all_count
@@ -193,7 +199,7 @@ for date in range(20230831,20230800,-1) :
         page += 1
 
 #csv파일로 만들시 한글깨짐 방지를 위해 인코딩 utf-8-sig
-with open("news230830.csv", mode="w", encoding="utf-8-sig", newline="") as file:
+with open("news2308.csv", mode="w", encoding="utf-8-sig", newline="") as file:
     writer = csv.writer(file)
     for row in rows:
         writer.writerow(row)    
