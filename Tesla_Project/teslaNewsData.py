@@ -1,7 +1,5 @@
-import csv
 import re
 import requests
-import json
 import pandas as pd
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -16,14 +14,12 @@ def email_reg(content) -> str:
     result = re.sub('[\w.+-]+@[\w-]+\.[\w.-]+', '', content)
     return result
 
-def clenaup_content(text) :
-  return 0
-
 #날짜형식 변경
 def remove_time_prefix(input_str) :
   if any([x in input_str for x in ["오전", "오후"]]):
     #기사입력, 오후, 오전 반환
     date_time_str = re.sub(r'기사입력|오후 |오전 ', '', input_str).strip()
+    print(date_time_str)
     #기사입력 2023.10.07. 오후 05:21
     try :
         # 날짜 및 시간 형식의 문자열을 날짜 객체로 파싱
@@ -63,7 +59,7 @@ def get_news(URL) :
     media_element = soup.select_one("span.logo img") 
     content_element = soup.select_one("div#newsEndContents") 
   else :
-    None
+    pass
   
   if title_element:
     title = title_element.text.strip()
@@ -97,17 +93,18 @@ def get_news_list(keyword, toDate, fromDate) :
     news = []
     #뉴스 리스트 페이지
     for date in pd.date_range(toDate, fromDate) :
+      str_d = date.strftime("%Y.%m.%d")
       page = 1
       while True:
         start = (page-1) * 10 + 1
         print(page)
-        URL = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query='+ keyword +'&sort=1&photo=0&field=0&pd=3&ds='+toDate+'&de='+fromDate+'&mynews=0&office_type=0&office_section_code=0&news_office_checked=&office_category=0&service_area=0&nso=so:dd,p:from'+fromDate.replace(".","")+'to'+toDate.replace(".","")+',a:all&start='+str(start)
+        URL = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query='+ keyword +'&sort=1&photo=0&field=0&pd=3&ds='+str_d+'&de='+str_d+'&mynews=0&office_type=0&office_section_code=0&news_office_checked=&office_category=0&service_area=0&nso=so:dd,p:from'+str_d.replace(".","")+'to'+str_d.replace(".","")+',a:all&start='+str(start)
         print(URL)
         res = requests.get(URL,headers = headers)
         soup = BeautifulSoup(res.text, "html.parser")
 
-        #마지막 페이지 일때 나타나는 태그
-        if soup.select_one("div.api_noresult_wrap") :
+        #마지막 페이지일때 나타나는 태그
+        if soup.select_one(".api_noresult_wrap") :
           print("크롤링 끝")
           break
 
@@ -117,20 +114,18 @@ def get_news_list(keyword, toDate, fromDate) :
           if len(item.select("div.info_group a")) == 2 :
             news.append(get_news(item.select("div.info_group a")[1]['href']))
         page += 1
-      return pd.DataFrame(news, columns=['title','date','media','content','url'])
+    return pd.DataFrame(news, columns=['title','date','media','content','url'])
     #return news
 
 keyword = "테슬라"
 toDate = "2023.05.01"
-fromDate = "2023.05.31"
+fromDate = "2023.05.01"
 
-#뉴스 
-# 수집 데이터
 rows = get_news_list(keyword, toDate, fromDate)
 #csv로 파일 저장
 rows.to_csv('tesla.csv', encoding='utf-8-sig')
 
-print(rows)
+#print(rows)
 
 #with open("teslaNews.csv", mode="w", encoding="utf-8-sig", newline="") as file:
 #    writer = csv.writer(file)
