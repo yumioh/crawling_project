@@ -48,18 +48,18 @@ def get_news(URL) :
     date_element = soup.select_one("span.media_end_head_info_datestamp_time") #기사작성일시
     media_element = soup.select_one("a.media_end_head_top_logo img") #뉴스매체명
     content_element = soup.select_one("div#newsct_article") #기사원문
-  elif soup.select_one('h2.end_tit') != None : #연예기사
-    title_element = soup.select_one('h2.end_tit') 
-    date_element = soup.select_one("span.author > em")
-    media_element = soup.select_one("a.press_logo img") 
-    content_element = soup.select_one("div#articeBody") 
-  elif soup.select_one('div.news_headline h4.title') != None: #스포츠기사
-    title_element = soup.select_one("div.news_headline h4.title")
-    date_element = soup.select_one("div.info span") 
-    media_element = soup.select_one("span.logo img") 
-    content_element = soup.select_one("div#newsEndContents") 
+  # elif soup.select_one('h2.end_tit') != None : #연예기사
+  #   title_element = soup.select_one('h2.end_tit') 
+  #   date_element = soup.select_one("span.author > em")
+  #   media_element = soup.select_one("a.press_logo img") 
+  #   content_element = soup.select_one("div#articeBody") 
+  # elif soup.select_one('div.news_headline h4.title') != None: #스포츠기사
+  #   title_element = soup.select_one("div.news_headline h4.title")
+  #   date_element = soup.select_one("div.info span") 
+  #   media_element = soup.select_one("span.logo img") 
+  #   content_element = soup.select_one("div#newsEndContents") 
   else :
-    pass
+    return None
   
   if title_element:
     title = title_element.text.strip()
@@ -85,6 +85,7 @@ def get_news(URL) :
     content = re.sub(r'[\r\n\t\"\'\,]', '', content)
   else:
     content = "No Content Found"
+    
   print(title, URL)
   return (title, remove_time_prefix(date), media, email_reg(content), URL)
 
@@ -102,9 +103,11 @@ def get_news_list(keyword, toDate, fromDate) :
         print(URL)
         res = requests.get(URL,headers = headers)
         soup = BeautifulSoup(res.text, "html.parser")
+        
+        #print(soup.select_one(".api_noresult_wrap"))
 
-        #마지막 페이지일때 나타나는 태그
-        if soup.select_one(".api_noresult_wrap") :
+        #해당하는 페이지에 검색할 페이지가 없는 경우
+        if soup.select_one("div.not_found02"):
           print("크롤링 끝")
           break
 
@@ -114,16 +117,17 @@ def get_news_list(keyword, toDate, fromDate) :
           if len(item.select("div.info_group a")) == 2 :
             news.append(get_news(item.select("div.info_group a")[1]['href']))
         page += 1
+        
     return pd.DataFrame(news, columns=['title','date','media','content','url'])
     #return news
 
 keyword = "테슬라"
 toDate = "2023.05.01"
-fromDate = "2023.05.01"
+fromDate = "2023.05.15"
 
 rows = get_news_list(keyword, toDate, fromDate)
 #csv로 파일 저장
-rows.to_csv('tesla.csv', encoding='utf-8-sig')
+rows.to_csv('tesla0515.csv', encoding='utf-8-sig')
 
 #print(rows)
 
