@@ -19,7 +19,7 @@ def remove_time_prefix(input_str) :
   if any([x in input_str for x in ["오전", "오후"]]):
     #기사입력, 오후, 오전 반환
     date_time_str = re.sub(r'기사입력|오후 |오전 ', '', input_str).strip()
-    print(date_time_str)
+    #print(date_time_str)
     #기사입력 2023.10.07. 오후 05:21
     try :
         # 날짜 및 시간 형식의 문자열을 날짜 객체로 파싱
@@ -43,21 +43,21 @@ def get_news(URL) :
   media_element = ""
   content_element = ""
 
-  if soup.select_one("h2#title_area span") != None:#일반 기사
+  if soup.select_one("h2#title_area span") != None: #일반 기사
     title_element = soup.select_one("h2#title_area span") #제목
     date_element = soup.select_one("span.media_end_head_info_datestamp_time") #기사작성일시
     media_element = soup.select_one("a.media_end_head_top_logo img") #뉴스매체명
     content_element = soup.select_one("div#newsct_article") #기사원문
-  # elif soup.select_one('h2.end_tit') != None : #연예기사
-  #   title_element = soup.select_one('h2.end_tit') 
-  #   date_element = soup.select_one("span.author > em")
-  #   media_element = soup.select_one("a.press_logo img") 
-  #   content_element = soup.select_one("div#articeBody") 
-  # elif soup.select_one('div.news_headline h4.title') != None: #스포츠기사
-  #   title_element = soup.select_one("div.news_headline h4.title")
-  #   date_element = soup.select_one("div.info span") 
-  #   media_element = soup.select_one("span.logo img") 
-  #   content_element = soup.select_one("div#newsEndContents") 
+  elif soup.select_one('h2.end_tit') != None : #연예기사
+    title_element = soup.select_one('h2.end_tit') 
+    date_element = soup.select_one("span.author > em")
+    media_element = soup.select_one("a.press_logo img") 
+    content_element = soup.select_one("div#articeBody") 
+  elif soup.select_one('div.news_headline h4.title') != None: #스포츠기사
+    title_element = soup.select_one("div.news_headline h4.title")
+    date_element = soup.select_one("div.info span") 
+    media_element = soup.select_one("span.logo img") 
+    content_element = soup.select_one("div#newsEndContents") 
   else :
     return None
   
@@ -87,7 +87,7 @@ def get_news(URL) :
     content = "No Content Found"
     
   print(title, URL)
-  return (title, remove_time_prefix(date), media, email_reg(content), URL)
+  return (title, remove_time_prefix(date), media, email_reg(content))
 
 #뉴스 리스트 들고 오기
 def get_news_list(keyword, toDate, fromDate) :
@@ -95,7 +95,7 @@ def get_news_list(keyword, toDate, fromDate) :
     #뉴스 리스트 페이지
     for date in pd.date_range(toDate, fromDate) :
       str_d = date.strftime("%Y.%m.%d")
-      page = 1
+      page = 2
       while True:
         start = (page-1) * 10 + 1
         print(page)
@@ -118,21 +118,15 @@ def get_news_list(keyword, toDate, fromDate) :
             news.append(get_news(item.select("div.info_group a")[1]['href']))
         page += 1
         
-    return pd.DataFrame(news, columns=['title','date','media','content','url'])
+    return pd.DataFrame(news, columns=['title','date','media','content'])
     #return news
 
 keyword = "테슬라"
-toDate = "2023.05.01"
-fromDate = "2023.05.15"
+toDate = "2023.01.16"
+fromDate = "2023.01.31"
 
 rows = get_news_list(keyword, toDate, fromDate)
+
 #csv로 파일 저장
-rows.to_csv('tesla0515.csv', encoding='utf-8-sig')
-
-#print(rows)
-
-#with open("teslaNews.csv", mode="w", encoding="utf-8-sig", newline="") as file:
-#    writer = csv.writer(file)
-#    for row in rows:
-#        writer.writerow(row)
+rows.to_csv('D:/data_analysis/data/tesla0118.csv', encoding='utf-8-sig')
 
