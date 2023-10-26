@@ -96,6 +96,7 @@ def get_news_list(keyword, toDate, fromDate) :
     for date in pd.date_range(toDate, fromDate) :
       str_d = date.strftime("%Y.%m.%d")
       page = 1
+      page = 1
       while True:
         start = (page-1) * 10 + 1
         print(page)
