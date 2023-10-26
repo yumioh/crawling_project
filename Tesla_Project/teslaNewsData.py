@@ -96,6 +96,7 @@ def get_news_list(keyword, toDate, fromDate) :
     for date in pd.date_range(toDate, fromDate) :
       str_d = date.strftime("%Y.%m.%d")
       page = 1
+      page = 1
       while True:
         start = (page-1) * 10 + 1
         print(page)
@@ -122,11 +123,11 @@ def get_news_list(keyword, toDate, fromDate) :
     #return news
 
 keyword = "테슬라"
-toDate = "2023.04.01"
-fromDate = "2023.04.15"
+toDate = "2023.08.01"
+fromDate = "2023.08.30"
 
 rows = get_news_list(keyword, toDate, fromDate)
 
-#csv로 파일 저장
-rows.to_csv('D:/data_analysis/data/tesla0415.csv', encoding='utf-8-sig')
+#csv로 파일 저장)
+rows.to_csv('D:/data_analysis/data/tesla08.csv', encoding='utf-8-sig')
 
