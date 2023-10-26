@@ -123,11 +123,11 @@ def get_news_list(keyword, toDate, fromDate) :
     #return news
 
 keyword = "테슬라"
-toDate = "2023.08.01"
-fromDate = "2023.08.30"
+toDate = "2023.09.01"
+fromDate = "2023.09.30"
 
 rows = get_news_list(keyword, toDate, fromDate)
 
 #csv로 파일 저장)
-rows.to_csv('D:/data_analysis/data/tesla08.csv', encoding='utf-8-sig')
+rows.to_csv('D:/data_analysis/data/teslaNews_2309.csv', encoding='utf-8-sig')
 
