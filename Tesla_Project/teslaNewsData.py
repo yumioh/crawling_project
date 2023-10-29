@@ -123,8 +123,8 @@ def get_news_list(keyword, toDate, fromDate) :
     #return news
 
 keyword = "테슬라"
-toDate = "2023.09.01"
-fromDate = "2023.09.30"
+toDate = "2023.06.01"
+fromDate = "2023.06.30"
 
 rows = get_news_list(keyword, toDate, fromDate)
 
