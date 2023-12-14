@@ -18,7 +18,8 @@ stocksData = pd.read_csv(stockFilePath)
 #-------------------- 뉴스 데이터 정리 -----------------------------------
 
 #문자열을 날짜타입으로 변경
-newsData['날짜'] = pd.to_datetime(newsData['날짜'], format='%Y-%m-%d')
+newsData['날짜'] = pd.to_datetime(newsData['날짜'], format="YYYY.mm.dd")
+print(newsData['날짜'])
 
 #전체기사 일자별로 카운트하여 데이터프레임으로 만들기
 news_total_count = pd.DataFrame(newsData.groupby(['날짜']).count()['내용'])
