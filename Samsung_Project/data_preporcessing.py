@@ -1,7 +1,18 @@
+import os
 import pandas as pd
-import nltk
-from nltk.corpus import stopwords 
-from nltk.tokenize import word_tokenize 
+from konlpy.tag import Mecab
+
+# 기존 PATH 환경변수 값을 가져옵니다.
+existing_path = os.environ.get('PATH', '')
+
+# 추가할 디렉토리를 설정합니다.
+new_path = 'C:/mecab/bin'
+
+# PATH 환경변수에 새 디렉토리를 추가합니다.
+# os.environ['PATH'] = new_path + os.pathsep + existing_path
+print(os.environ['PATH'] )
+
+mecab = Mecab('C:\mecab\share\mecab-ko-dic')
 
 #기사 및 주식 데이터 불려오기
 newsFilePath = './data/samsung_2308.csv'
@@ -69,6 +80,7 @@ reactivity = pd.DataFrame(samsungNews.groupby(['날짜']).count()['반응갯수'
 
 #카테고리별 갯수
 category = pd.DataFrame(samsungNews['분야'].value_counts())
+print(category)
 
 reactivity.to_csv(saveReactivity)
 category.to_csv(saveCategory)
@@ -80,24 +92,33 @@ category.to_csv(saveCategory)
 # newsData['내용']
 
 # nltk의 punkt 데이터 다운로드
-nltk.download('punkt')
+#nltk.download('punkt')
 
 # 불용어 설정
-stop_words = ['연합뉴스', 'yna', 'co', 'kr', 'DB', 'DB 금지', 'co.kr', '섹션', '분류', '서울', '(=)', '재판매', '기자', '구독', '금지' , '및'
-              '제공','올해', '3일', '재배포', '및', '무단', 'reserved', 'right','등']
+stop_words = ['연합뉴스', 'yna', 'co', 'kr', 'DB', 'DB 금지', 'co.kr', '섹션', '분류', '서울', '(=)', '재판매', '기자', '구독', '금지' , '및',
+              '제공', '올해', '3일', '재배포', '및', '무단', 'reserved', 'right', '등']
 
 # newsData의 '내용' 컬럼에서 텍스트 가져오기
 text = ' '.join(newsData['내용'].astype(str))
 
-# 단어 토큰화
-word_tokens = word_tokenize(text)
+mecab = Mecab()
+print(mecab.pos(newsData['내용']))
 
-# 불용어 제거
-result = [word for word in word_tokens if word not in stop_words]
+
+#'내용' 열의 각 행에 대해 키워드 제거
+# for keyword in stop_words:
+#     newsData['내용'] = newsData['내용'].str.replace(keyword, '')
+# newsData['내용']
+
+# 단어 토큰화
+# word_tokens = word_tokenize(text)
+
+# # 불용어 제거
+# result = [word for word in word_tokens if word not in stop_words]
         
 # print(word_tokenize, "/n")
 # print(result)
 
 # 결과를 파일로 저장
-with open('./data/result.txt', 'w', encoding='utf-8') as file:
-    file.write(' '.join(result))
+# with open('./data/result.txt', 'w', encoding='utf-8') as file:
+#     file.write(' '.join(result))

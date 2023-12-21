@@ -6,4 +6,4 @@ data/*
 
 #파일
 .env
-*.txt
+*.txts
