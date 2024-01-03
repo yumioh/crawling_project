@@ -19,9 +19,7 @@ mergeData = pd.read_csv(saveMerge)
 reactivity = pd.read_csv(saveReactivity)
 category = pd.read_csv(saveCategory)
 
-
 #폰트 설정
-font_path = font_path
 font = fm.FontProperties(fname=font_path).get_name()
 plt.rc('font', family=font)
 plt.rcParams['font.size'] = 10
@@ -57,17 +55,25 @@ plt.bar(category['분야'], category['count'], color='lightskyblue')
 plt.tight_layout() 
 
 #결과 출력
-plt.show()
+#plt.show()
+noun_data = pd.read_csv('./data/wordcloud.csv', encoding='utf-8')
+
+noun_data['명사'] = noun_data
+
+#text_data = ' '.join(noun_data['명사'].dropna())
+
+text_data = ' '.join(noun_data['명사'].astype(str).dropna())
 
 wordcloud = WordCloud(max_font_size=200,
                       font_path=font_path,
                       #stopwords=STOPWORDS,
                       background_color='#FFFFFF',
                       width=1200,
-                      height=800).generate_from_file('./data/result.txt')
+                      height=800,
+                      max_words=80).generate(text_data)
 
 plt.figure(figsize=(20,20))
-plt.imshow(wordcloud)
+plt.imshow(wordcloud, interpolation='bilinear')
 plt.tight_layout(pad=0)
 plt.axis('off')
 plt.show()
