@@ -39,13 +39,13 @@
 ## 3. 정리한 데이터를 기반으로 그래프 작성(시각화)
     - 기사버즈량 및 주가 비교
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/16b4b68f-d653-4347-a362-f5627e8b049b" width="50%" height="20%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/16b4b68f-d653-4347-a362-f5627e8b049b" width="70%" height="30%"/>
 
     - 일자별 기사 관심도 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/d80a6ea9-edc9-4f35-bea4-e5166a49f855" width="50%" height="20%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/d80a6ea9-edc9-4f35-bea4-e5166a49f855" width="70%" height="30%"/>
 
     - 카테고리별 기사량
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/f12404b6-0e86-4a65-8dd8-381d15784676" width="50%" height="20%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/f12404b6-0e86-4a65-8dd8-381d15784676" width="70%" height="30%"/>
 
 ## 4. 워드 클라우드 만들기
 
