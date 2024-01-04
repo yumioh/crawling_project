@@ -84,38 +84,31 @@ category.to_csv(saveCategory)
 stop_words = ['연합뉴스', 'yna', 'co', 'kr', 'DB', 'DB 금지', 'co.kr', '섹션', '분류', '서울', '(=)', '재판매', '기자', '구독', '금지' , '및', '또', '통해',
               '제공', '올해', '3일', '재배포', '및', '무단', 'reserved', 'right', '등', '특파원', '지난', '현지', '시간', '의', '최근', '현재', '뒤', '우리',
               '사람', '경우', '이', '은', '수', '더', '오전', '당시', '경우', '기존', '지금', '포함', '이유', '것 말', '때', '위해', '를', '국민', '힘', '도',
-              '중', '내년', '그', '후','것 말', '다시', '대한', '대해', '불어', '과', '관련', '설명', '해', '위', '문', '내', '달', '시', '말']
+              '중', '내년', '그', '후','것 말', '다시', '대한', '대해', '불어', '과', '관련', '설명', '해', '위', '문', '내', '달', '시', '말', '인', '정']
 
+stop_words2 = ['연합뉴스', 'yna', 'co', 'kr', 'DB', 'DB 금지', 'co.kr', '섹션', '분류', '서울', '(=)', '재판매', '기자', '구독', '금지' , '및', '또', '통해',
+              '제공', '올해', '3일', '재배포', '및', '무단', 'reserved', 'right', '등', '특파원', '지난', '현지', '시간', '의', '최근', '현재', '뒤', '우리',
+              '사람', '경우', '수', '있는', '있다', '하고', '있다', '바 있다', 'South Korea', '은', '있도록']
 
+# # 1.단순 불용어처리 후 워드 클라우드 만들기
+# #'내용' 열의 각 행에 대해 키워드 제거
+# for keyword in stop_words2:
+#     newsData['내용'] = newsData['내용'].str.replace(keyword, '')
+
+# #파일 저장
+# newsData['내용'].to_csv('./data/content.csv', index=False, header=False, encoding='utf-8')
+
+# 2.형태소 분석을 이용한 워드 클라우드 만들기
 #'내용' 열의 각 행에 대해 키워드 제거
 for keyword in stop_words:
     newsData['내용'] = newsData['내용'].str.replace(keyword, '')
-
-# newsData의 '내용' 컬럼에서 한줄 텍스트로 가져오기
-#text  = ' '.join(newsData['내용'].astype(str))
 
 #형태소 분석과 명사만 추출
 #okt를 사용하는 이유 : 속도가 빠르고 품사태그가 간단하며, 조사나 어미 등 필요한 정보를 쉽게 활용 가능
 okt = Okt()
 newsData['명사'] = newsData['내용'].apply(lambda x: ' '.join(okt.nouns(str(x))))
 
-#words = [n for n in nouns if len(n) > 2] #단어길이가 2이상인 단어만 추출
+#파일저장
+newsData['명사'].to_csv('./data/okt.csv', index=False, header=False, encoding='utf-8')
 
-# newsData의 '내용' 컬럼에서 텍스트 가져오기
-# result = ' '.join(newsData['내용'].astype(str))
 
-# 단어 토큰화
-# word_tokens = word_tokenize(text)
-
-# 불용어 제거
-# result = [word for word in word_tokens if word not in stop_words]
-        
-# print(word_tokenize, "/n")
-# print(result)
-
-# 결과를 파일로 저장
-# with open('./data/wordcloud.csv', 'w', encoding='utf-8') as file:
-#     file.write(' '.join(newsData['명사']))
-    #file.write(newsData['명사'])
-# 결과를 파일로 저장 (콤마로 구분하여 저장)
-newsData['명사'].to_csv('./data/wordcloud.csv', index=False, header=False, encoding='utf-8')

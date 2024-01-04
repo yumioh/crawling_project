@@ -56,7 +56,7 @@ plt.tight_layout()
 
 #결과 출력
 #plt.show()
-noun_data = pd.read_csv('./data/wordcloud.csv', encoding='utf-8')
+noun_data = pd.read_csv('./data/okt.csv', encoding='utf-8')
 
 noun_data['명사'] = noun_data
 
