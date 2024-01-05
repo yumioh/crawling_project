@@ -48,6 +48,8 @@
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/f12404b6-0e86-4a65-8dd8-381d15784676" width="70%" height="30%"/>
 
 ## 4. 워드 클라우드 만들기
+    - 버즈량이 가장 많은 일자 워드 클라우드 
+
 
 
 
