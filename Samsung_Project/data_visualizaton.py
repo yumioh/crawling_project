@@ -76,10 +76,10 @@ text_data = ' '.join(noun_data['명사'].astype(str).dropna())
 # plt.imshow(wordcloud, interpolation='bilinear')
 # plt.tight_layout(pad=0)
 # plt.axis('off')
-#plt.show()
+plt.show()
 
 #버즈량이 많은 날짜만 워드클라우드 만들기
-content_data = pd.read_csv('./data/content.csv', encoding='utf-8')
+content_data = pd.read_csv('./data/wordcloud.csv', encoding='utf-8')
 print(content_data.index)
 
 wordcloud = WordCloud(max_font_size=200,
@@ -87,7 +87,7 @@ wordcloud = WordCloud(max_font_size=200,
                       background_color='#FFFFFF',
                       width=800,
                       height=600,
-                      max_words=80).generate(' '.join(content_data[content_data['날짜']=='2023-08-08']['내용'].values)) #2023년 8월 16일자 기사본문 합치기!
+                      max_words=80).generate(' '.join(content_data[content_data['날짜']=='2023-08-16']['내용'].values)) #2023년 8월 16일자 기사본문 합치기!
 
 plt.figure(figsize=(15,15))
 plt.imshow(wordcloud)
