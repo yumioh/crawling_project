@@ -49,9 +49,9 @@
 
 ## 4. 워드 클라우드 만들기
     - 버즈량이 가장 많은 일자 워드 클라우드 : 8월 16일과 8일 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/a6112af7-8ebf-443b-b024-f297509a080f width="50%" height="30%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/a6112af7-8ebf-443b-b024-f297509a080f" width="50%" height="30%"/>
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/a6112af7-8ebf-443b-b024-f297509a080f width="50%" height="30%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/a6112af7-8ebf-443b-b024-f297509a080f" width="50%" height="30%"/>
 
 ## 5. 결론
     - 기사 버즈량과 주가를 비교 했을때 크게 주가에 크게 영향이 없었고, 삼성전자라 카테고리에서 경제 부분에 많이 나타나는 것으로 보입니다
