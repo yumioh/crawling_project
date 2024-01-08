@@ -64,20 +64,19 @@ noun_data['명사'] = noun_data
 
 text_data = ' '.join(noun_data['명사'].astype(str).dropna())
 
-wordcloud = WordCloud(max_font_size=200,
-                      font_path=font_path,
-                      #stopwords=STOPWORDS,
-                      background_color='#FFFFFF',
-                      width=1200,
-                      height=800,
-                      max_words=70).generate(text_data)
+# wordcloud = WordCloud(max_font_size=200,
+#                       font_path=font_path,
+#                       #stopwords=STOPWORDS,
+#                       background_color='#FFFFFF',
+#                       width=1200,
+#                       height=800,
+#                       max_words=70).generate(text_data)
 
-plt.figure(figsize=(20,20))
-plt.imshow(wordcloud, interpolation='bilinear')
-plt.tight_layout(pad=0)
-plt.axis('off')
+# plt.figure(figsize=(20,20))
+# plt.imshow(wordcloud, interpolation='bilinear')
+# plt.tight_layout(pad=0)
+# plt.axis('off')
 #plt.show()
-
 
 #버즈량이 많은 날짜만 워드클라우드 만들기
 content_data = pd.read_csv('./data/content.csv', encoding='utf-8')
@@ -86,11 +85,11 @@ print(content_data.index)
 wordcloud = WordCloud(max_font_size=200,
                       font_path=font_path,
                       background_color='#FFFFFF',
-                      width=1200,
-                      height=800,
-                      max_words=90).generate(' '.join(content_data[content_data['날짜']=='2023-08-16']['내용'].values)) #2023년 8월 16일자 기사본문 합치기!
+                      width=800,
+                      height=600,
+                      max_words=80).generate(' '.join(content_data[content_data['날짜']=='2023-08-08']['내용'].values)) #2023년 8월 16일자 기사본문 합치기!
 
-plt.figure(figsize=(20,20))
+plt.figure(figsize=(15,15))
 plt.imshow(wordcloud)
 plt.tight_layout(pad=0)
 plt.axis('off')
