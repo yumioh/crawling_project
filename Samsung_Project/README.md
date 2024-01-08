@@ -49,12 +49,12 @@
 
 ## 4. 워드 클라우드 만들기
     - 모든 기사 워드클라우드 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/bee57bcf-e516-42c3-bbb7-7daf00504dec" width=70%" height="50%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/bee57bcf-e516-42c3-bbb7-7daf00504dec" width="70%" height="50%"/>
 
     - 버즈량이 가장 많은 일자 워드 클라우드 : 8월 16일과 8일 
 <div class="image-container">
-    <img src="https://github.com/yumioh/data_analysis/assets/38059057/b5280d9d-82f0-4a3a-bc75-c02f639f359b" width=48%" height="50%" margin="5px"/>
-    <img src="https://github.com/yumioh/data_analysis/assets/38059057/a6112af7-8ebf-443b-b024-f297509a080f" width="48%" height="55%"/>
+    <img src="https://github.com/yumioh/data_analysis/assets/38059057/b5280d9d-82f0-4a3a-bc75-c02f639f359b" width="48%" height="50%" margin="5px"/>
+    <img src="https://github.com/yumioh/data_analysis/assets/38059057/a6112af7-8ebf-443b-b024-f297509a080f" width="48%" height="50%"/>
 </div>
     
 
