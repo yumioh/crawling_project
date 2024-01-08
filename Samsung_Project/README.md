@@ -54,7 +54,7 @@
     - 버즈량이 가장 많은 일자 워드 클라우드 : 8월 16일과 8일 
 <div class="image-container">
     <img src="https://github.com/yumioh/data_analysis/assets/38059057/b5280d9d-82f0-4a3a-bc75-c02f639f359b" width=48%" height="50%" margin="5px"/>
-    <img src="https://github.com/yumioh/data_analysis/assets/38059057/a6112af7-8ebf-443b-b024-f297509a080f" width="48%" height="50%"/>
+    <img src="https://github.com/yumioh/data_analysis/assets/38059057/a6112af7-8ebf-443b-b024-f297509a080f" width="48%" height="55%"/>
 </div>
     
 
