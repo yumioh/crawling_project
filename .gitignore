@@ -3,6 +3,7 @@
 .vscode/settings.json
 __pycache__
 data/*
+Tesla_Project/data/
 
 #파일
 .env
