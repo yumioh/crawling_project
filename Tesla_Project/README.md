@@ -1,4 +1,4 @@
-# 웹 크롤링을 통한 LDA 모델링 및 Twiiter의 Elon Musk의 발언 영향 <br/> 주가 스윙 분석 
+# 웹 크롤링을 통한 LDA 모델링을 이용한 금융 시장 변동성 분석 <br/> (논문기반으로 구현) 
 
 #### 사용언어 : python
 #### 사용 Tools : VScode
