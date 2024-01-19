@@ -72,27 +72,28 @@ news_daily_cnt = data_df['기사갯수']
 #news_cnt = data_df['기사갯수'].sum()
 #print('2023년 기사 개수 :', news_cnt)
 
-
 print('날짜별 기사개수 : {}, 날짜별 주식 거래양 수 : {}'.format(news_daily_cnt, stock_daily_volume))
 
 print("---------------------라쏘 회귀 ------------------------")
-# 라쏘 회귀  : 
-# 선형 회귀으로 비용함수인 mse를 최소하하는 방향으로 머신러닝 모델이 학습을 진행
+# 라쏘 회귀 : 선형 회귀으로 비용함수인 mse를 최소하하는 방향으로 머신러닝 모델이 학습을 진행
 # TF-IDF는 단어의 빈도수(TF)와 단어가 들어있는 문서 수의 반비례 하는 수(IDF)를 곱한값
 # 기사 수(news_cnt) : X, 주식거래량(stock_volume) : y
-# 각 데이터를 StandardScaler/MinMaxScaler로 표준화하여 모델링
+# 각 데이터를 StandardScaler/MinMaxS1caler로 표준화하여 모델링
 
 X = data_df['기사갯수'].values.reshape(-1,1)
 y = data_df['거래량'].values.reshape(-1,1)
-alpha = 0.001
 n_splits = 5
-alphas = [0.001, 0.01, 0.1, 1, 10, 100]
-
-#라쏘회귀 실행
-print(modeling.LASSO_KFold(X, y, alpha, n_splits))
+alphas = [0.001, 0.005, 0.01, 0.1, 1, 10, 100]
 
 # 최적의 alpha 찾기
-print(modeling.optimize_alpha(X, y, alphas, n_splits))
+modeling.optimize_alpha(X, y, alphas, n_splits)
+
+alpha = 0.001 # K-FOLD로 구한 alpha값
+
+#라쏘회귀 실행
+modeling.LASSO_KFold(X, y, alpha, n_splits)
+modeling.LASSO(X, y, n_splits)
+
 
 print("---------------------LDA 모델링------------------------")
 
@@ -100,7 +101,6 @@ def save_topics_csv(lda, num_topics, save_result_to: str = './Tesla_Project/data
   # LDA 모델의 토픽 리스트를 csv파일로 저장
   topics = pd.Series(lda.print_topics(num_topics=num_topics, num_words=10))
   topics.to_csv(save_result_to, mode='w', encoding='utf-8', header=['list'], index_label='topic')
-
 
 #딕셔너리 생성 : 다시하기 
 dic = Dictionary()
