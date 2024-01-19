@@ -28,7 +28,7 @@ print("---------------------Tokenization------------------------")
 filepath = './Tesla_Project/data/merge/'
 prepro_fileName = 'telsa_preprosessing'
 words_df = csvfile.read_csv(filepath, prepro_fileName)
-#print(f'전처리한 날짜, 본문 shape : ', df.shape)
+print(f'전처리한 날짜, 본문 shape : ', words_df.shape)
 
 #words_df.drop('Unnamed: 0', axis=1, inplace = True)
 print('word_df.shape : {}, words_df.shape : {} '.format(words_df.shape, words_df))

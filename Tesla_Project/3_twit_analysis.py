@@ -39,6 +39,7 @@ stockFileName = 'merge_stock_data'
 #테슬라 주식 dataFrame
 stocks_df = pd.DataFrame()
 stocks_df = csvfile.read_csv(stockFilePath, stockFileName)
+print(stocks_df.sum())
 
 #datetime으로 타입 변환
 stocks_df['날짜'] = pd.to_datetime(stocks_df['날짜'])

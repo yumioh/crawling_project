@@ -23,7 +23,7 @@ def filter_rows_with_keywords(dataframe, keywords):
     filtered_df = dataframe[~mask]
     return filtered_df
 
-# 주식 시장 관련 키워드가 포함된 행 삭제
+# 주식 관련 키워드가 포함된 행 삭제
 filtered_df = filter_rows_with_keywords(words_df, stock_keywords)
 
 # 최종 필터링된 데이터프레임 확인

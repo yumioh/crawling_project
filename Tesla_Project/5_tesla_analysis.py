@@ -46,9 +46,9 @@ words_df = words_df.rename(columns={'date' : '날짜'})
 #datetime으로 타입 변환
 words_df['날짜'] = pd.to_datetime(words_df['날짜'])
 
-#기사 데이터 날짜별 기사 수 추출
+#기사 데이터 날짜별 기사 수 추출 : 1291
 news_cnt_daily = words_df.groupby(words_df['날짜']).count()['nouns_content']
-#print(news_cnt_daily)
+# print("기사 데이터 날짜별 기사 수", news_cnt_daily.shape)
 
 daily_news_count = news_cnt_daily.reset_index()
 daily_news_count.columns = ['날짜', '기사갯수']
