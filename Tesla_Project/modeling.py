@@ -55,6 +55,10 @@ def LASSO_KFold(X, y, alpha, n_splits) :
         mse = mean_squared_error(y_test, y_pred)
         mse_scores.append(mse)
 
+        plt.plot(lasso_model.coef_, 'o', label="lasso alpha = 0.001")
+        plt.legend()
+        plt.show()
+
     # 각 fold에서의 MSE 출력
     for i, mse in enumerate(mse_scores):
         print(f"Fold {i + 1} - MSE: {mse}")
@@ -72,6 +76,9 @@ def LASSO_KFold(X, y, alpha, n_splits) :
     mean_mse = sum(mse_scores) / len(mse_scores)
     print(f"평균 MSE : {mean_mse}")
     print(f"R-squared (결정 계수): {r2}")
+
+    print("사용한 특성의 수 : {}".format(np.sum(lasso_model.coef_ != 0)))
+    print("사용한 max_iter : {}".format(lasso_model.n_iter_))
 
 # 최적의 alpha값 
 def optimize_alpha(X, y, alphas, n_splits) :
