@@ -1,5 +1,5 @@
 from gensim.corpora.dictionary import Dictionary
-from gensim.models import TfidfModel, LdaMulticore
+from gensim.models import TfidfModel, LdaMulticore, CoherenceModel
 import pyLDAvis.gensim_models as gensimvis
 import gensim
 import matplotlib.pyplot as plt
@@ -72,19 +72,40 @@ for doc in clean_words:
   result = id2word.doc2bow(doc)
   corpus_TDM.append(result)
 
+print("---------------------Perplexity------------------------")
+
 # 토픽 갯수 선정을 위해 Perplexity 구하기 
 # 확률 모델이 결과를 얼마나 정확하게 예측하는지 판단 낮을수록 정확하게 예측ㄴ 
 # 주 용도: 동일 모델 낸 파라미터에 따른 성능 평가할때 주로 사용
 # 한계 : Perplexity가 낮다고 해서, 결과가 해석 용이하다는 의미가 아님
-perplexity_values = []
-for i in range(2,15) :
-  ldamodel = gensim.models.ldamodel.LdaMulticore(corpus_TDM, num_topics = 1, id2word = id2word)
-  perplexity_values.append(ldamodel.log_perplexity(corpus_TDM))
+# perplexity_values = []
+# for i in range(2,45) :
+#   ldamodel = gensim.models.ldamodel.LdaModel(corpus_TDM, num_topics = i, id2word = id2word)
+#   perplexity_values.append(ldamodel.log_perplexity(corpus_TDM))
 
-x = range(2,15)
-plt.plot(x, perplexity_values)
+# x = range(2,45)
+# plt.plot(x, perplexity_values)
+# plt.xlabel("number of topics")
+# plt.ylabel("perplexity socre")
+# plt.show()
+
+print("---------------------Coherence------------------------")
+
+# Coherence을 통한 토픽의 최적화 
+# 의미: 토픽이 얼마나 의미론적으로 일관성 있는지 판단, 높을수록 의미론적 일관성이 높음
+# 주 용도 : 해당 모델이 얼마나 실제로 의미 있는 결과를 내는지 확인
+
+coherence_values = []
+for i in range(2,45) :
+  ldamodel = gensim.models.ldamodel.LdaModel(corpus_TDM, num_topics = i, id2word = id2word)
+  coherence_model_lda = CoherenceModel(model=ldamodel, texts=clean_words, dictionary=id2word, topn=10)
+  coherence_lda = coherence_model_lda.get_coherence()
+  coherence_values.append(coherence_lda)
+
+y = range(2,45)
+plt.plot(y, coherence_values)
 plt.xlabel("number of topics")
-plt.ylabel("perplexity socre")
+plt.ylabel("coherence socre")
 plt.show()
 
 #tfidf로 벡터화 적용
