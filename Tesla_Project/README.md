@@ -81,20 +81,15 @@
     - 토픽 개수 30개내로 한정 => 뉴스 기록 숫자에 따라 토픽 개수를 달리 하는 것은 결과에 큰 변화를 불려오지 않음
     - LDAㄴ로 뉴스 정보를 주제별로 특징으로 분해하여 다차원 척도법으로 각 토픽들 간의 관계 확인
     
-#### 2-1 LDA 모델링 실행 순서
-    1) BoW(Bag of Word) : 토픽 모델링 딕셔너리 생성하여 id2word로 용어-문서 빈도 정의
-    2) TfidModel 적용 : BoW표현으로만 사용하면 모든 단어가 똑같은 중요도로 취급. 단어들의 가중치를 주기 위함
-    3) Perplexity와 Coherence 구하기 : 
+## 2-1 LDA 모델링 실행 순서
+    1. BoW(Bag of Word) : 토픽 모델링 딕셔너리 생성하여 id2word로 용어-문서 빈도 정의
+    2. TfidModel 적용 : BoW표현으로만 사용하면 모든 단어가 똑같은 중요도로 취급. 단어들의 가중치를 주기 위함
+    3. LDA 모델링의 적절한 토픽수 구하기 : Perplexity와 Coherence를 이용하여 절적한 토픽수 구함
 
 
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/131f2394-586f-4056-a11f-5e6ae588db7a" width="100%" height="100%" margin="5px"/>
 
 
-    - 버즈량이 가장 많은 일자 워드 클라우드 : 8월 16일과 8일 
-<div class="image-container">
-    <img src="https://github.com/yumioh/data_analysis/assets/38059057/b5280d9d-82f0-4a3a-bc75-c02f639f359b" width="48%" height="50%" margin="5px"/>
-    <img src="https://github.com/yumioh/data_analysis/assets/38059057/a6112af7-8ebf-443b-b024-f297509a080f" width="48%" height="50%"/>
-</div>
-    
 
 ## 5. 결론
     - 기사 버즈량과 주가를 비교 했을때 크게 주가에 크게 영향이 없었고, 삼성전자가 주제라 카테고리에서 경제 부분에 많이 나타나는 것으로 보입니다
