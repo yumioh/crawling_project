@@ -1,6 +1,7 @@
 from gensim.corpora.dictionary import Dictionary
 from gensim.models import TfidfModel, LdaMulticore
 import pyLDAvis.gensim_models as gensimvis
+import gensim
 import matplotlib.pyplot as plt
 import pandas as pd
 import csvfile
@@ -48,7 +49,9 @@ news_count = news_cnt.reset_index()
 news_count.columns = ['날짜', '기사갯수']
 print(news_count.info())
 
-print("---------------------토픽처리된 LDA 모델링------------------------")
+#TODO : 단어 빈도 구해서 워드 클라우드 만들기 
+
+print("---------------------토픽처리한 LDA 모델링------------------------")
 
 # LDA 데이터를 csv 파일 저장
 def save_topics_csv(lda, num_topics, save_result_to: str = './Tesla_Project/data/merge/lda_by_topics.csv'):
@@ -69,6 +72,21 @@ for doc in clean_words:
   result = id2word.doc2bow(doc)
   corpus_TDM.append(result)
 
+# 토픽 갯수 선정을 위해 Perplexity 구하기 
+# 확률 모델이 결과를 얼마나 정확하게 예측하는지 판단 낮을수록 정확하게 예측ㄴ 
+# 주 용도: 동일 모델 낸 파라미터에 따른 성능 평가할때 주로 사용
+# 한계 : Perplexity가 낮다고 해서, 결과가 해석 용이하다는 의미가 아님
+perplexity_values = []
+for i in range(2,15) :
+  ldamodel = gensim.models.ldamodel.LdaMulticore(corpus_TDM, num_topics = 1, id2word = id2word)
+  perplexity_values.append(ldamodel.log_perplexity(corpus_TDM))
+
+x = range(2,15)
+plt.plot(x, perplexity_values)
+plt.xlabel("number of topics")
+plt.ylabel("perplexity socre")
+plt.show()
+
 #tfidf로 벡터화 적용
 tfidf = TfidfModel(corpus_TDM)
 corpus_TFIDF = tfidf[corpus_TDM]
@@ -77,17 +95,26 @@ corpus_TFIDF = tfidf[corpus_TDM]
 if __name__ == '__main__':
   start_time = time.time()
   n = 30 #토픽의 개수
+
   #worker(프로세스 수),토픽수.passes(매개변수) 수를 조정하여 
   #속도를 높일 수 있음
   lda = LdaMulticore(corpus=corpus_TFIDF,
                     id2word=id2word,
                     num_topics=n,
                     random_state=100,
-                    passes=15,
+                    chunksize=100,
+                    minimum_probability = 0.05,
+                    passes=10,
                     workers=6)
 
   for t in lda.print_topics():
     print(t[0],":",t[1])
+  
+  #반환되는 토픽의 확률 중 최소값 설정: 0.05 미만 분포는 무시
+  all_topics = lda.get_document_topics(corpus_TFIDF, minimum_probability=0.05, per_word_topics = True)
+
+  # for idx, topic in enumerate(all_topics[:30]):
+  #   print(idx, topic)
 
   #로그 혼란도(0에 가까울수록 성능이 높음)
   #lda.log_perplexity(corpus_TFIDF)
@@ -105,7 +132,7 @@ if __name__ == '__main__':
   save_topics_csv(lda, n)
 
   #LDA 시각화
-  vis = gensimvis.prepare(lda, corpus_TFIDF, id2word)
+  vis = gensimvis.prepare(lda, corpus_TFIDF, id2word, sort_topics=False)
   pyLDAvis.save_html(vis, './Tesla_Project/data/lda_visualization.html')
 
   end_time = time.time()

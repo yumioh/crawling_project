@@ -7,9 +7,9 @@
   - 논문명 : High Quality Topic Extraction from Business News Explains Abnormal Financial Market Volatility
   - 주제 : 거래 활동에 영향을 미치는 가장 관련성이 높은 뉴스를 식별하기 위해 주제 모델링과 회귀 분석을 결합한 새로운 방법론을 도입하여 뉴스와 주식 시장의 거래 활동에 미치는 영향
   - 연구 방법 :
-    1) 거래활동과 뉴스 정보를 회귀 분석 활용 (LASSO 회귀)
-    2) 토픽 모델링 기술을 사용하여 주제별 기능 구현 (LDA 모델링)
-    3) 뉴스가 주가에 미치는 영향을 자동적으로 요약, 예측, 정량화 함
+    1. 거래활동과 뉴스 정보를 회귀 분석 활용 (LASSO 회귀)
+    2. 토픽 모델링 기술을 사용하여 주제별 기능 구현 (LDA 모델링)
+    3. 뉴스가 주가에 미치는 영향을 자동적으로 요약, 예측, 정량화 함
   - 연구 결론 : 주요 영향 주제로는 이익 보고서, 신용 등급, 합병 거래, 금융 위기 등이 있었습니다. 분석 결과, 뉴스 정보는 주식 시장 거래에 중요한 영향을 미친다는 결론
 <br>
 
@@ -77,20 +77,17 @@
 
 
 ## 2. LDA 모델링
+    - LDA는 토픽 모델링의 가장 대표적인 알고리즘으로 문서의 집합으로부터 어떤 토픽이 존재하지를 알아내기 위한 알고리즘
     - 토픽 개수 30개내로 한정 => 뉴스 기록 숫자에 따라 토픽 개수를 달리 하는 것은 결과에 큰 변화를 불려오지 않음
-    - LDA로 뉴스 정보를 주제별로 특징으로 분해
+    - LDAㄴ로 뉴스 정보를 주제별로 특징으로 분해하여 다차원 척도법으로 각 토픽들 간의 관계 확인
+    
+#### 2-1 LDA 모델링 실행 순서
+    1) BoW(Bag of Word) : 토픽 모델링 딕셔너리 생성하여 id2word로 용어-문서 빈도 정의
+    2) TfidModel 적용 : BoW표현으로만 사용하면 모든 단어가 똑같은 중요도로 취급. 단어들의 가중치를 주기 위함
+    3) Perplexity와 Coherence 구하기 : 
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/16b4b68f-d653-4347-a362-f5627e8b049b" width="70%" height="30%"/>
 
-    - 일자별 기사 관심도 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/d80a6ea9-edc9-4f35-bea4-e5166a49f855" width="70%" height="30%"/>
 
-    - 카테고리별 기사량
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/f12404b6-0e86-4a65-8dd8-381d15784676" width="70%" height="30%"/>
-
-## 4. 워드 클라우드 만들기
-    - 모든 기사 워드클라우드 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/bee57bcf-e516-42c3-bbb7-7daf00504dec" width="70%" height="50%"/>
 
     - 버즈량이 가장 많은 일자 워드 클라우드 : 8월 16일과 8일 
 <div class="image-container">

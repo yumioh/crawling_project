@@ -1,8 +1,10 @@
 from gensim.corpora.dictionary import Dictionary
 from gensim.models import TfidfModel, LdaMulticore
+import pyLDAvis.gensim_models as gensimvis
 import pandas as pd
 import csvfile, modeling
 import time
+import pyLDAvis
 
 print("---------------------테슬라 주식 데이터 Dataframe ------------------------")
 
@@ -148,6 +150,10 @@ if __name__ == '__main__':
       for word, prob in lda.show_topic(topic, topn=topn):
           top_words.add(word)
   len(top_words) / (lda.num_topics * topn)
+
+  #LDA 시각화
+  vis = gensimvis.prepare(lda, corpus_TFIDF, id2word)
+  pyLDAvis.save_html(vis, './Tesla_Project/data/lda_visualization_before.html')
   
   #csv 파일 저장
   save_topics_csv(lda, n)
