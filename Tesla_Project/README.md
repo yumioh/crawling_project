@@ -82,9 +82,9 @@
     - LDAㄴ로 뉴스 정보를 주제별로 특징으로 분해하여 다차원 척도법으로 각 토픽들 간의 관계 확인
     
 ## 2-1 LDA 모델링 실행 순서
-    1) BoW(Bag of Word) : 토픽 모델링 딕셔너리 생성하여 id2word로 용어-문서 빈도 정의
-    2) TfidModel 적용 : BoW표현으로만 사용하면 모든 단어가 똑같은 중요도로 취급. 단어들의 가중치를 주기 위함
-    3) Perplexity와 Coherence 구하기 : 
+    1. BoW(Bag of Word) : 토픽 모델링 딕셔너리 생성하여 id2word로 용어-문서 빈도 정의
+    2. TfidModel 적용 : BoW표현으로만 사용하면 모든 단어가 똑같은 중요도로 취급. 단어들의 가중치를 주기 위함
+    3. LDA 모델링의 적절한 토픽수 구하기 : Perplexity와 Coherence를 이용하여 절적한 토픽수 구함
 
 
 
