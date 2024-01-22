@@ -87,14 +87,9 @@
     3. LDA 모델링의 적절한 토픽수 구하기 : Perplexity와 Coherence를 이용하여 절적한 토픽수 구함
 
 
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/131f2394-586f-4056-a11f-5e6ae588db7a" width="100%" height="100%" margin="5px"/>
 
 
-    - 버즈량이 가장 많은 일자 워드 클라우드 : 8월 16일과 8일 
-<div class="image-container">
-    <img src="https://github.com/yumioh/data_analysis/assets/38059057/b5280d9d-82f0-4a3a-bc75-c02f639f359b" width="48%" height="50%" margin="5px"/>
-    <img src="https://github.com/yumioh/data_analysis/assets/38059057/a6112af7-8ebf-443b-b024-f297509a080f" width="48%" height="50%"/>
-</div>
-    
 
 ## 5. 결론
     - 기사 버즈량과 주가를 비교 했을때 크게 주가에 크게 영향이 없었고, 삼성전자가 주제라 카테고리에서 경제 부분에 많이 나타나는 것으로 보입니다
