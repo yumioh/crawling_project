@@ -23,20 +23,21 @@ def LASSO_KFold(X, y, alpha, n_splits) :
 
     #X(기사 수)값 스케일링
     scaler_X = MinMaxScaler() 
-    # fit : 주어진 데이터로 스케일링을 수행하기 위해 필요한 파라미터 계산 즉, 최소값, 최대값 계산하여 저장 (주어진 데이터를 통해 스케일링에 필요한 파라미터 학습하는 단계)
+    # fit : 주어진 데이터로 스케일링을 수행하기 위해 필요한 파라미터 계산 
+    # 즉, 최소값, 최대값 계산하여 저장 (주어진 데이터를 통해 스케일링에 필요한 파라미터 학습하는 단계)
     # transform : fit의 계산한 값을 0,1의 값으로 스케일링 함 즉, 학습한 데이터를 사용하여 주어진 데이터를 스케일링하는 단계
-    X = scaler_X.fit_transform(X)
+    X_scaled = scaler_X.fit_transform(X)
 
     # y값(주식 거래량)값 스케일링
     scaler_y = MinMaxScaler()
-    y = scaler_y.fit_transform(y) 
+    y_scaled = scaler_y.fit_transform(y) 
 
     # 데이터를 훈련 세트와 테스트 세트로 분할
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=55)
+    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y_scaled, train_size = 0.7, test_size=0.3, random_state=0)
 
     # 라쏘 회귀 모델 생성
     # alpha값은 k-fold를 통해 구함
-    lasso_model = Lasso(alpha)
+    lasso_model = Lasso(alpha, max_iter=100000)
 
     # K-fold 교차 검증을 사용하여 성능 평가
     # 일반화 성능을 추정하기 위한 검증 세트를 사용 : 주어진 데이터를 여러 개의 폴도로 나누고 
@@ -44,10 +45,11 @@ def LASSO_KFold(X, y, alpha, n_splits) :
     # n_splits  : K-fold 분할 수
     kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
     mse_scores = []
+    coef = []
 
     for train_index, test_index in kf.split(X):
-        X_train, X_test = X[train_index], X[test_index]
-        y_train, y_test = y[train_index], y[test_index]
+        X_train, X_test = X_scaled[train_index], X_scaled[test_index]
+        y_train, y_test = y_scaled[train_index], y_scaled[test_index]
 
         lasso_model.fit(X_train, y_train)
         y_pred = lasso_model.predict(X_test)
@@ -55,9 +57,11 @@ def LASSO_KFold(X, y, alpha, n_splits) :
         mse = mean_squared_error(y_test, y_pred)
         mse_scores.append(mse)
 
-        plt.plot(lasso_model.coef_, 'o', label="lasso alpha = 0.001")
-        plt.legend()
-        plt.show()
+        coef.append(lasso_model.coef_)
+
+    plt.plot(coef, 'o', label="lasso alpha = 0.001")
+    plt.legend()
+    plt.show()
 
     # 각 fold에서의 MSE 출력
     for i, mse in enumerate(mse_scores):
@@ -80,29 +84,30 @@ def LASSO_KFold(X, y, alpha, n_splits) :
     print("사용한 특성의 수 : {}".format(np.sum(lasso_model.coef_ != 0)))
     print("사용한 max_iter : {}".format(lasso_model.n_iter_))
 
-# 최적의 alpha값 
+# 최적의 alpha값 구하기
 def optimize_alpha(X, y, alphas, n_splits) :
     #n_splits = 5
     kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
 
     scaler_X = MinMaxScaler() #0,1분산으로 조정
     # TF-IDF 행렬을 벡터화 배열로 변환 및 2차원 배열로 변경
-    X = scaler_X.fit_transform(X)
+    X_scaled = scaler_X.fit_transform(X)
 
     # y값(주식 거래량)을 벡터화 배열로 변환 2차원 배열로 변경
     scaler_y = MinMaxScaler()
-    y = scaler_y.fit_transform(y)
+    y_scaled = scaler_y.fit_transform(y)
 
     best_alpha = None
     best_mean_mse = float('inf')
+    coefs = []
 
     for alpha in alphas:
         mse_scores = []
         lasso_model = Lasso(alpha=alpha)
 
         for train_index, test_index in kf.split(X):
-            X_train, X_test = X[train_index], X[test_index]
-            y_train, y_test = y[train_index], y[test_index]
+            X_train, X_test = X_scaled[train_index], X_scaled[test_index]
+            y_train, y_test = y_scaled[train_index], y_scaled[test_index]
 
             lasso_model.fit(X_train, y_train)
             y_pred = lasso_model.predict(X_test)
@@ -110,14 +115,27 @@ def optimize_alpha(X, y, alphas, n_splits) :
             mse_scores.append(mse)
 
         mean_mse = np.mean(mse_scores)
+        coefs.append(lasso_model.coef_)
 
         if mean_mse < best_mean_mse:
             best_mean_mse = mean_mse
             best_alpha = alpha
 
+    plt.figure(figsize=(12, 6))
+    for i in range(X_scaled.shape[1]):
+        plt.plot(alphas, [coef[i] for coef in coefs], label=f'Feature {i+1}')
+
+    plt.xscale('log')
+    plt.xlabel('Alpha (Regularization Strength)')
+    plt.ylabel('Coefficient Value')
+    plt.title('Lasso Regression Coefficients vs. Alpha')
+    plt.legend()
+    plt.show()
+
     print(f"최적의 alpha: {best_alpha}")
     print(f"최적의 평균 MSE: {best_mean_mse}")
 
+#RandomizedSearchCV을 사용한 라쏘회귀
 def LASSO(X, y, n_splits) :
     # 데이터 스케일링
     scaler_X = MinMaxScaler()
@@ -127,7 +145,7 @@ def LASSO(X, y, n_splits) :
     y = scaler_y.fit_transform(y.reshape(-1, 1)).flatten()
 
     # 데이터를 훈련 세트와 테스트 세트로 분할
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=55)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.7, test_size=0.3, random_state=0)
 
     lasso_model = Lasso()
 
@@ -141,3 +159,24 @@ def LASSO(X, y, n_splits) :
 
     # 최적의 alpha 값 출력
     print("Best Alpha:", random_search.best_params_['alpha'])
+
+
+# 스케일링 안한 라쏘회귀   
+def new_lasso(X, y, n_splits) :
+    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size = 0.7, test_size=0.3, random_state=0)
+    #print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
+
+    lasso_model = Lasso(alpha=0.01, max_iter=100000)
+    lasso_model.fit(X_train, y_train)
+    print("new lasso : ", lasso_model.coef_)
+    plt.plot(lasso_model.coef_, 's', label = "alpha 0.01")
+    plt.legend(ncol=2, loc=(0, 1.05))
+
+    plt.xlabel("w list")
+    plt.ylabel("w size")
+    # plt.hlines(0, 0, len(lr.coef_))
+    plt.ylim(-25, 25)
+
+    plt.show()
+
+
