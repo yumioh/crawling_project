@@ -31,20 +31,20 @@ words_df = csvfile.read_csv(filepath, prepro_fileName)
 #print(f'전처리한 날짜, 본문 shape : ', words_df.shape)
 
 #words_df.drop('Unnamed: 0', axis=1, inplace = True)
-print('word_df.shape : {}, words_df.shape : {} '.format(words_df.shape, words_df))
+#print('word_df.shape : {}, words_df.shape : {} '.format(words_df.shape, words_df))
 
 #공백으로 본문 내용 split
-words_list = words_df['content_data'].str.split()
-word_counter(words_list)
-#print(words_list[:10])
+words_df['splitted_content'] = words_df['content_data'].str.split()
+word_counter(words_df)
+print("words_list:", words_df[:5])
 
 #기사 내용을 토큰화
-docs = words_df['content_data']
+docs = words_df['splitted_content']
 
 #공백으로 토큰화
 tokenized_docs = []
 for doc in docs:
-  tokenized_docs.append(doc.split())
+  tokenized_docs.append(doc)
 #print(word_counter(tokenized_docs))
 
 #병렬처리하면 더 오래 걸림
@@ -54,20 +54,19 @@ print("---------------------품사부착 (PoS Tagging)------------------------")
 #VSCODE시 Mecab에 dic path 넣어주기
 def pos_nouns_tag(df) :
   mecab = Mecab('C:\mecab\share\mecab-ko-dic')
-  return df.apply(lambda x: mecab.nouns(x))
+  return df.apply(lambda x: [mecab.nouns(word) for word in x])
 
-words_df['nouns_content'] = pos_nouns_tag(words_df['content_data'])
-print("명사 pos taging : ", words_df['nouns_content'][:10])
+words_df['pos_content'] = pos_nouns_tag(words_df['splitted_content'])
+print("명사 pos taging : ", words_df[['날짜','splitted_content']][:5])
 
 #word_df를 리스트로 변환
-words_list = words_df['nouns_content'].tolist()
+words_list = words_df['splitted_content'].tolist()
 
 #불용어처리
-words_df['nouns_content'] = words_df['nouns_content'].map(cleaningData.remove_korean_stopwords)
-clean_words = words_df['nouns_content']
-print(clean_words)
+words_df['pos_content'] = words_df['pos_content'].map(cleaningData.remove_korean_stopwords)
+clean_words = words_df[['날짜','pos_content']]
 #print("명사 pos taging : ", clean_words['nouns_content'][:10])
-#print('불용어 제거 후 : ', clean_words[:20])
+print('불용어 제거 후 : ', clean_words[:10])
 
 end_time = time.time()
 
@@ -81,5 +80,5 @@ execution_time = end_time - start_time
 print(f"실행 시간: {execution_time} 초")
 
 #불용어 제거한 파일 저장
-clean_fileName = 'tesla_news_cleaninngWords'
-csvfile.save_file(words_df, filepath, clean_fileName)
+clean_fileName = 'tesla_news_tokenization'
+csvfile.save_file(clean_words, filepath, clean_fileName)

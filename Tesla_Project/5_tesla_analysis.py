@@ -36,7 +36,8 @@ stock_df = stocks_df[['날짜','거래량']]
 print("---------------------테슬라 기사 데이터 Dataframe ------------------------")
 
 newsFilePath = './Tesla_Project/data/merge/'
-newsFileName = 'tesla_news_cleaninngWords'
+newsFileName = 'tesla_news_topics'
+#tesla_news_topics
 
 #테슬라 뉴스 dataFrame
 words_df = pd.DataFrame()
@@ -49,12 +50,12 @@ words_df = words_df.rename(columns={'date' : '날짜'})
 words_df['날짜'] = pd.to_datetime(words_df['날짜'])
 
 #기사 데이터 날짜별 기사 수 추출 : 1291
-news_cnt_daily = words_df.groupby(words_df['날짜']).count()['nouns_content']
-# print("기사 데이터 날짜별 기사 수", news_cnt_daily.shape)
+news_cnt_daily = words_df.groupby(words_df['날짜']).count()['pos_content']
+print("기사 데이터 날짜별 기사 수", news_cnt_daily.shape)
 
 daily_news_count = news_cnt_daily.reset_index()
 daily_news_count.columns = ['날짜', '기사갯수']
-print(daily_news_count.info())
+print("daily_news_count : ", daily_news_count.info())
 
 print("---------------------기사와 주식 병합 Dataframe ------------------------")
 # 주식 데이터와 기사 데이터를 병합
@@ -94,24 +95,28 @@ alpha = 0.001 # K-FOLD로 구한 alpha값
 
 #TODO : 라쏘회귀 그래프 그림 그리기
 #라쏘회귀 실행
-#modeling.LASSO_KFold(X, y, alpha, n_splits)
+modeling.LASSO_KFold(X, y, alpha, n_splits)
 #modeling.LASSO(X, y, n_splits)
 #modeling.new_lasso(X, y, n_splits)
 
-
 print("---------------------LDA 모델링------------------------")
-
-def save_topics_csv(lda, num_topics, save_result_to: str = './Tesla_Project/data/lda.csv'):
-  # LDA 모델의 토픽 리스트를 csv파일로 저장
-  topics = pd.Series(lda.print_topics(num_topics=num_topics, num_words=10))
-  topics.to_csv(save_result_to, mode='w', encoding='utf-8', header=['list'], index_label='topic')
 
 #딕셔너리 생성 : 다시하기 
 dic = Dictionary()
-#clean_words = words_df['nouns_content']
+clean_words = words_df['nouns_content']
+print('clean dataframe', clean_words[:10])
 clean_words = words_df['nouns_content'].apply(lambda x: str(x).split())
 id2word = Dictionary(clean_words)
-#print(id2word)
+print("id2word 처리후 : ", list(id2word.items())[:10])
+
+
+for key, value in id2word.items():
+    if isinstance(value, list):
+        # 리스트 안에 있는 경우 리스트의 첫 번째 요소를 사용
+        id2word[key] = value[0]
+
+# 수정된 id2word 출력
+print("id2word 처리후 : ", list(id2word.items())[:10])
 
 corpus_TDM = []
 for doc in clean_words:
@@ -124,40 +129,45 @@ tfidf = TfidfModel(corpus_TDM)
 corpus_TFIDF = tfidf[corpus_TDM]
 
 #LDA 모델링
-if __name__ == '__main__':
-  start_time = time.time()
-  n = 30 #토픽의 개수
-  #worker(프로세스 수),토픽수.passes(매개변수) 수를 조정하여 
-  #속도를 높일 수 있음
-  lda = LdaMulticore(corpus=corpus_TFIDF,
-                    id2word=id2word,
-                    num_topics=n,
-                    random_state=100,
-                    passes=15,
-                    workers=6)
+def save_topics_csv(lda, num_topics, save_result_to: str = './Tesla_Project/data/lda.csv'):
+  # LDA 모델의 토픽 리스트를 csv파일로 저장
+  topics = pd.Series(lda.print_topics(num_topics=num_topics, num_words=10))
+  topics.to_csv(save_result_to, mode='w', encoding='utf-8', header=['list'], index_label='topic')
 
-  for t in lda.print_topics():
-    print(t[0],":",t[1])
+# if __name__ == '__main__':
+#   start_time = time.time()
+#   n = 30 #토픽의 개수
+#   #worker(프로세스 수),토픽수.passes(매개변수) 수를 조정하여 
+#   #속도를 높일 수 있음
+#   lda = LdaMulticore(corpus=corpus_TFIDF,
+#                     id2word=id2word,
+#                     num_topics=n,
+#                     random_state=100,
+#                     passes=15,
+#                     workers=6)
 
-  #로그 혼란도(0에 가까울수록 성능이 높음)
-  lda.log_perplexity(corpus_TFIDF)
+#   for t in lda.print_topics():
+#     print(t[0],":",t[1])
 
-  #다양도(1에 가까울 수록 성능이 높음)
-  topn = 25
-  top_words = set()
+#   #로그 혼란도(0에 가까울수록 성능이 높음)
+#   lda.log_perplexity(corpus_TFIDF)
 
-  for topic in range(lda.num_topics):
-      for word, prob in lda.show_topic(topic, topn=topn):
-          top_words.add(word)
-  len(top_words) / (lda.num_topics * topn)
+#   #다양도(1에 가까울 수록 성능이 높음)
+#   topn = 25
+#   top_words = set()
 
-  #LDA 시각화
-  vis = gensimvis.prepare(lda, corpus_TFIDF, id2word)
-  pyLDAvis.save_html(vis, './Tesla_Project/data/lda_visualization_before.html')
+#   for topic in range(lda.num_topics):
+#       for word, prob in lda.show_topic(topic, topn=topn):
+#           top_words.add(word)
+#   len(top_words) / (lda.num_topics * topn)
+
+#   #LDA 시각화
+#   vis = gensimvis.prepare(lda, corpus_TFIDF, id2word)
+#   pyLDAvis.save_html(vis, './Tesla_Project/data/lda_visualization_before.html')
   
-  #csv 파일 저장
-  save_topics_csv(lda, n)
-  end_time = time.time()
+#   #csv 파일 저장
+#   save_topics_csv(lda, n)
+#   end_time = time.time()
 
-  execution_time = end_time - start_time
-  print(f"실행 시간: {execution_time} 초")
+  # # execution_time = end_time - start_time
+  # print(f"실행 시간: {execution_time} 초")
