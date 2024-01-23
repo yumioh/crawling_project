@@ -84,20 +84,28 @@
 ## 2-1 LDA 모델링 실행 순서
     1. BoW(Bag of Word) : 토픽 모델링 딕셔너리 생성하여 id2word로 용어-문서 빈도 정의
     2. TfidModel 적용 : BoW표현으로만 사용하면 모든 단어가 똑같은 중요도로 취급. 단어들의 가중치를 주기 위함
-    3. LDA 모델링의 적절한 토픽수 구하기 : Perplexity와 Coherence를 이용하여 절적한 토픽수 구함
-    4. LDA 모델링 결과물 pyLDAvis로 시각화 : 다차원 척도법에 의해 각 토픽들 간의 관계 확인 </p> 가까이 있는 토픽은 서로 비슷한 토픽이고 원의 크기가 클수록 문서에 지배적인 토픽을 뜻함. 막대 그래프는 단어들의 빈도수를 나타냄. 빨간색 길이가 길수록 토픽 내에서의 빈도 수를 추정
+    3. LDA 모델링의 적절한 토픽수 구하기 : Perplexity(혼잡도)와 Coherence(일관성)를 이용하여 절적한 토픽수 구함
+       - Perplexity : 모델이 주어진 데이터를 얼마나 잘 설명하는지에 대한 측정. 값이 낮을수록 모델이 데이터 잘 적합
+       - Coherence : 토픽 간의 일관성과 단어들의 일관성을 측정하여 토픽의 해석을 개선. 값이 높을 수록 의미있고 일관되게 형성
+    4. LDA 모델링 결과물 pyLDAvis로 시각화 : 다차원 척도법에 의해 각 토픽들 간의 관계 확인 
+                                            가까이 있는 토픽은 서로 비슷한 토픽이고 원의 크기가 클수록 문서에 지배적인 토픽을 뜻함. 
+                                            막대 그래프는 단어들의 빈도수를 나타냄. 빨간색 길이가 길수록 토픽 내에서의 빈도 수를 추정
 
-    - Perplexity 시각화
+  ## - Perplexity 시각화
+     - 주어진 데이터를 바탕으로 Perplexity의 결과가 Perplexity값이 마이너스로 나와 Perplexity으로 적합한 토픽 개수 결정 불가능
+       
 
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/473e8232-8466-469e-8c1d-120cb2c67195" width="70%" height="30%"/>
 
-</p>
-    - Coherence 시각화
+   ## - Coherence 시각화
+      - 주어진 데이터를 바탕으로 Coherence의 결과가 토픽의 개수가 20개 일때 토픽의 의미와 일관성을 보임
 
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/7ea465e0-a6ce-4767-8499-3b9b1749cf5b" width="70%" height="30%"/>
 
 
-- 
+   ## - LDA 모델링 시각화
+      - Perplexity와 Coherence를 통해 두가지 측면을 종합하여 토픽의 개수를 20개로 설정
+  
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/131f2394-586f-4056-a11f-5e6ae588db7a" width="100%" height="100%" margin="5px"/>
 
 
