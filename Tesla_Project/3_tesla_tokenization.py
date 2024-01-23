@@ -57,10 +57,10 @@ def pos_nouns_tag(df) :
   return df.apply(lambda x: [mecab.nouns(word) for word in x])
 
 words_df['pos_content'] = pos_nouns_tag(words_df['splitted_content'])
-print("명사 pos taging : ", words_df[['날짜','splitted_content']][:5])
+print("명사 pos taging : ", words_df[['날짜','pos_content']][:5])
 
 #word_df를 리스트로 변환
-words_list = words_df['splitted_content'].tolist()
+words_list = words_df['pos_content'].tolist()
 
 #불용어처리
 words_df['pos_content'] = words_df['pos_content'].map(cleaningData.remove_korean_stopwords)
