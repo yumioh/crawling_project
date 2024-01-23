@@ -29,7 +29,7 @@ stocks_df['거래량'] = pd.to_numeric(stocks_df['거래량'].str.replace('M', '
 stock_df = stocks_df[['날짜','거래량']]
 #print(stock_df[:10])
 
-print("---------------------토픽 처리된 테슬라 Dataframe ------------------------")
+print("---------------------토픽 처리한 테슬라 Dataframe ------------------------")
 
 topicFilePath = './Tesla_Project/data/merge/'
 topicFileName = 'tesla_news_topics'
@@ -51,13 +51,7 @@ print(news_count.info())
 
 #TODO : 단어 빈도 구해서 워드 클라우드 만들기 
 
-print("---------------------토픽처리한 LDA 모델링------------------------")
-
-# LDA 데이터를 csv 파일 저장
-def save_topics_csv(lda, num_topics, save_result_to: str = './Tesla_Project/data/merge/lda_by_topics.csv'):
-  # LDA 모델의 토픽 리스트를 csv파일로 저장
-  topics = pd.Series(lda.print_topics(num_topics=num_topics, num_words=10))
-  topics.to_csv(save_result_to, mode='w', encoding='utf-8', header=['list'], index_label='topic')
+print("---------------------BoW(Bag of Word) ------------------------")
 
 #딕셔너리 생성 : 다시하기 
 dic = Dictionary()
@@ -95,18 +89,28 @@ print("---------------------Coherence------------------------")
 # 의미: 토픽이 얼마나 의미론적으로 일관성 있는지 판단, 높을수록 의미론적 일관성이 높음
 # 주 용도 : 해당 모델이 얼마나 실제로 의미 있는 결과를 내는지 확인
 
-coherence_values = []
-for i in range(2,45) :
-  ldamodel = gensim.models.ldamodel.LdaModel(corpus_TDM, num_topics = i, id2word = id2word)
-  coherence_model_lda = CoherenceModel(model=ldamodel, texts=clean_words, dictionary=id2word, topn=10)
-  coherence_lda = coherence_model_lda.get_coherence()
-  coherence_values.append(coherence_lda)
+# coherence_values = []
+# for i in range(2,45) :
+#   ldamodel = gensim.models.ldamodel.LdaModel(corpus_TDM, num_topics = i, id2word = id2word)
+#   coherence_model_lda = CoherenceModel(model=ldamodel, texts=clean_words, dictionary=id2word, topn=10, processes=1)
+#   coherence_lda = coherence_model_lda.get_coherence()
+#   coherence_values.append(coherence_lda)
 
-y = range(2,45)
-plt.plot(y, coherence_values)
-plt.xlabel("number of topics")
-plt.ylabel("coherence socre")
-plt.show()
+# y = range(2,45)
+# plt.plot(y, coherence_values)
+# plt.xlabel("number of topics")
+
+# plt.ylabel("coherence socre")
+# plt.show()
+
+print("-------------------LDA 모델링--------------------------")
+
+# LDA 데이터를 csv 파일 저장
+def save_topics_csv(lda, num_topics, save_result_to: str = './Tesla_Project/data/merge/lda_by_topics.csv'):
+  # LDA 모델의 토픽 리스트를 csv파일로 저장
+  topics = pd.Series(lda.print_topics(num_topics=num_topics, num_words=10))
+  topics.to_csv(save_result_to, mode='w', encoding='utf-8', header=['list'], index_label='topic')
+
 
 #tfidf로 벡터화 적용
 tfidf = TfidfModel(corpus_TDM)
@@ -115,7 +119,7 @@ corpus_TFIDF = tfidf[corpus_TDM]
 #LDA 모델링
 if __name__ == '__main__':
   start_time = time.time()
-  n = 30 #토픽의 개수
+  n = 21 #토픽의 개수
 
   #worker(프로세스 수),토픽수.passes(매개변수) 수를 조정하여 
   #속도를 높일 수 있음

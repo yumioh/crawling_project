@@ -85,8 +85,19 @@
     1. BoW(Bag of Word) : 토픽 모델링 딕셔너리 생성하여 id2word로 용어-문서 빈도 정의
     2. TfidModel 적용 : BoW표현으로만 사용하면 모든 단어가 똑같은 중요도로 취급. 단어들의 가중치를 주기 위함
     3. LDA 모델링의 적절한 토픽수 구하기 : Perplexity와 Coherence를 이용하여 절적한 토픽수 구함
+    4. LDA 모델링 결과물 pyLDAvis로 시각화 : 다차원 척도법에 의해 각 토픽들 간의 관계 확인 </p> 가까이 있는 토픽은 서로 비슷한 토픽이고 원의 크기가 클수록 문서에 지배적인 토픽을 뜻함. 막대 그래프는 단어들의 빈도수를 나타냄. 빨간색 길이가 길수록 토픽 내에서의 빈도 수를 추정
+
+    - Perplexity 시각화
+
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/473e8232-8466-469e-8c1d-120cb2c67195" width="70%" height="30%"/>
+
+</p>
+    - Coherence 시각화
+
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/7ea465e0-a6ce-4767-8499-3b9b1749cf5b" width="70%" height="30%"/>
 
 
+- 
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/131f2394-586f-4056-a11f-5e6ae588db7a" width="100%" height="100%" margin="5px"/>
 
 
