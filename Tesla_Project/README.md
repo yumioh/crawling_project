@@ -101,7 +101,7 @@
 
    ## - LDA 모델링 시각화
       - Perplexity와 Coherence를 통해 두가지 측면을 종합하여 토픽의 개수를 20개로 설정
-      - topic 15,16,3이 가장 큰 토픽들로 중요도와 빈도가 높고 비슷한 주제를 갖고 있는 걸 볼 수 있음
+      - topic 15,16,3이 가장 큰 토픽들이며, 이 토픽들의 크기와 위치를 통해 중요도와 빈도가 높고 비슷한 주제를 갖고 있는 걸 볼 수 있음
   
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/a6669ad6-263c-4eaa-a23a-ab7abd3209f3" width="100%" height="100%" margin="5px"/>
 
