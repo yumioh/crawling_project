@@ -86,7 +86,7 @@ def LASSO_KFold(X, y, alpha, n_splits) :
 
 # 최적의 alpha값 구하기
 def optimize_alpha(X, y, alphas, n_splits) :
-    #n_splits = 5
+    n_splits = 5
     kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
 
     scaler_X = MinMaxScaler() #0,1분산으로 조정

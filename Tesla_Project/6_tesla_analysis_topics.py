@@ -119,7 +119,7 @@ corpus_TFIDF = tfidf[corpus_TDM]
 #LDA 모델링
 if __name__ == '__main__':
   start_time = time.time()
-  n = 21 #토픽의 개수
+  n = 20 #토픽의 개수
 
   #worker(프로세스 수),토픽수.passes(매개변수) 수를 조정하여 
   #속도를 높일 수 있음

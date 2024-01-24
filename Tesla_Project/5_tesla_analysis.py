@@ -91,14 +91,14 @@ n_splits = 5
 alphas = [0.001, 0.005, 0.01, 0.1, 1, 10, 100]
 
 # 최적의 alpha 찾기
-#modeling.optimize_alpha(X, y, alphas, n_splits)
+modeling.optimize_alpha(X, y, alphas, n_splits)
 
 alpha = 0.001 # K-FOLD로 구한 alpha값
 
 #TODO : 라쏘회귀 그래프 그림 그리기
 #라쏘회귀 실행
-#modeling.LASSO_KFold(X, y, alpha, n_splits)
-#modeling.LASSO(X, y, n_splits)
+modeling.LASSO_KFold(X, y, alpha, n_splits)
+#modeling.optimize_alpha(X, y, n_splits)
 #modeling.new_lasso(X, y, n_splits)
 
 print("---------------------LDA 모델링------------------------")
@@ -134,7 +134,7 @@ def save_topics_csv(lda, num_topics, save_result_to: str = './Tesla_Project/data
 
 if __name__ == '__main__':
   start_time = time.time()
-  n = 30 #토픽의 개수
+  n = 20 #토픽의 개수
   #worker(프로세스 수),토픽수.passes(매개변수) 수를 조정하여 
   #속도를 높일 수 있음
   lda = LdaMulticore(corpus=corpus_TFIDF,
