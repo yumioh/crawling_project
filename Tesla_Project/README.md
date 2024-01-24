@@ -94,7 +94,7 @@
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/473e8232-8466-469e-8c1d-120cb2c67195" width="70%" height="30%"/>
 
    ## - Coherence 시각화
-      - 주어진 데이터를 바탕으로 Coherence의 결과가 토픽의 개수가 20개 일때 토픽의 의미와 일관성을 보임
+      - 그래서 Coherence의 결과가 토픽의 개수가 20개 일때 토픽의 의미와 일관성을 보임
 
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/7ea465e0-a6ce-4767-8499-3b9b1749cf5b" width="70%" height="30%"/>
 
