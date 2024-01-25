@@ -26,7 +26,7 @@ def filter_rows_with_keywords(dataframe, keywords):
 filtered_df = filter_rows_with_keywords(words_df['pos_content'], stock_keywords)
 
 # # 'pos_content' 열의 빈 리스트 제거
-# filtered_df['pos_content'] = filtered_df['pos_content'].apply(lambda x: ', '.join(map(str, [i for i in x if i])))
+#filtered_df['pos_content'] = filtered_df['pos_content'].apply(lambda x: ', '.join(map(str, [i for i in x if i])))
 
 # 최종 필터링된 데이터프레임 확인
 print(filtered_df[:10])

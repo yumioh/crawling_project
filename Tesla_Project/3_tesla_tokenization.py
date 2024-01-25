@@ -62,7 +62,7 @@ print("명사 pos taging : ", words_df[['날짜','pos_content']][:5])
 #word_df를 리스트로 변환
 words_list = words_df['pos_content'].tolist()
 
-#불용어처리
+#불용어 처리
 words_df['pos_content'] = words_df['pos_content'].map(cleaningData.remove_korean_stopwords)
 clean_words = words_df[['날짜','pos_content']]
 #print("명사 pos taging : ", clean_words['nouns_content'][:10])
