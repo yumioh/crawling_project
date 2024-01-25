@@ -21,10 +21,6 @@ filtered_df['pos_content'] = filtered_df['pos_content'].apply(lambda x: ', '.joi
 
 print('---------------------------------------------------')
 
-# 결과 확인
-#print('삭제 후 : ', filtered_df)
-
-
 newsFilePath = './Tesla_Project/data/merge/'
 newsFileName = 'tesla_news_tokenization'
 
