@@ -4,7 +4,6 @@ from collections import Counter
 from concurrent.futures import ProcessPoolExecutor
 from konlpy.tag import Mecab
 import csvfile, cleaningData
-from gensim import corpora 
 import time
 
 # 상위 10개 단어 추출
@@ -31,10 +30,20 @@ prepro_fileName = 'telsa_preprosessing'
 words_df = csvfile.read_csv(filepath, prepro_fileName)
 #print(f'전처리한 날짜, 본문 shape : ', words_df.shape)
 
-#공백기준으로 본문 내용 split
-words_df['splitted_content'] = words_df['content_data'].str.split()
-print("공백기준으로 content split :", words_df[:5])
+#words_df.drop('Unnamed: 0', axis=1, inplace = True)
+#print('word_df.shape : {}, words_df.shape : {} '.format(words_df.shape, words_df))
 
+#공백으로 본문 내용 split
+words_df['splitted_content'] = words_df['content_data'].str.split()
+print("words_list:", words_df[:5])
+
+#공백으로 토큰화
+# tokenized_docs = []
+# for doc in words_df['splitted_content']:
+#   tokenized_docs.append(doc)
+# print(word_counter(tokenized_docs))
+
+#병렬처리하면 더 오래 걸림
 start_time = time.time()
 print("---------------------품사부착 (PoS Tagging)------------------------")
 #명사만 추출 
@@ -46,25 +55,31 @@ def pos_nouns_tag(df) :
 words_df['pos_content'] = pos_nouns_tag(words_df['splitted_content'])
 print("명사 pos taging : ", words_df[['날짜','pos_content']][:5])
 
+#word_df를 리스트로 변환
+words_list = words_df['pos_content'].tolist()
+
 #불용어 처리
+#words_df['pos_content'] = words_df['pos_content'].map(cleaningData.remove_korean_stopwords)
 words_df['pos_content'] = words_df['pos_content'].map(cleaningData.remove_korean_stopwords)
+
+#열의 빈 리스트 제거
+words_df['content'] = words_df['pos_content'].apply(lambda x: ' '.join(map(str, [i for i in x if i])))
+print("빈 리스트 제거 :", words_df['content'])
 
 clean_words = words_df[['날짜','pos_content']]
 print('불용어 제거 후 : ', clean_words[:10])
 
 end_time = time.time()
-execution_time = (end_time - start_time) / 60
-print(f"걸린 시간: {execution_time} 분")
-
-words_df['pos_content'] = words_df['pos_content'].apply(lambda x: list(filter(None, x)))
-clean_words = words_df[['날짜', 'pos_content']]
-print("빈 리스트 제거: ", clean_words[:5])
 
 # 최빈어를 조회하여 불용어 제거 대상 선정
-most_common_tag = [word for tokens in clean_words['pos_content'] for word_list in tokens for word in str(word_list).split()]
+#clean_words['pos_content'] = clean_words['pos_content'].apply(lambda x: ' '.join(map(str, x)))
+most_common_tag = [word for tokens in clean_words['pos_content'] for word in tokens.split()]
 most_common_words = Counter(most_common_tag).most_common(30)
-print("최빈어 조회 : ", most_common_words)
+print("최빈어 조회: ", most_common_words)
+
+execution_time = end_time - start_time
+print(f"걸린 시간: {execution_time} 초")
 
 #토큰화한 파일 저장
 clean_fileName = 'tesla_news_tokenization'
-csvfile.save_file_with(clean_words, filepath, clean_fileName)
+csvfile.save_file(clean_words, filepath, clean_fileName)

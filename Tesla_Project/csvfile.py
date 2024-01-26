@@ -74,4 +74,10 @@ def read_csv(dirpath, fileName):
 #csv 파일 저장
 def save_file(df, dirpath, fileName) :
     fileFormat = '.csv'
-    df.to_csv(dirpath + fileName + fileFormat ,index=False, encoding='utf-8-sig')
+    df.to_csv(dirpath + fileName + fileFormat , index=False, encoding='utf-8-sig')
+
+def save_file_with(df, dirpath, fileName) :
+    fileFormat = '.csv'
+    filePath = dirpath + fileName + fileFormat
+    with open(filePath, 'w', newline= "", encoding='utf-8') as f:
+        df.to_csv(f, index=False)

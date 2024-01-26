@@ -36,7 +36,7 @@ stock_df = stocks_df[['날짜','거래량']]
 print("---------------------테슬라 기사 데이터 Dataframe ------------------------")
 
 newsFilePath = './Tesla_Project/data/merge/'
-newsFileName = 'tesla_news_tokenization'
+newsFileName = 'tesla_news_topics'
 
 #테슬라 뉴스 dataFrame
 words_df = pd.DataFrame()
