@@ -18,7 +18,6 @@ stock_keywords = ['주식', '주가', '주가지수', '증시', '종목명', '�
 def filter_rows_with_keywords(dataframe, keywords):
     pattern = '|'.join(keywords)
     mask = dataframe.str.contains(pattern, case=False)
-    #mask = dataframe.apply(lambda x: bool(re.search(pattern, ', '.join(map(str, [i for i in x if i])))) if x else False)
     filtered_df = dataframe[~mask]
     return filtered_df
 
@@ -32,7 +31,7 @@ filtered_df_with_date = words_df[['날짜', 'pos_content']].loc[filtered_df.inde
 print(filtered_df_with_date[:10])
 print(filtered_df_with_date.shape)
 
-# 해당하는 토픽 제외된 csv 파일 저장 : 23515
+# 해당하는 토픽 제외된 csv 파일 저장 : 29278
 savefilepath = './Tesla_Project/data/merge/'
 savefileName = 'tesla_news_topics'
 csvfile.save_file_with(filtered_df_with_date, savefilepath, savefileName)

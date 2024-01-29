@@ -3,8 +3,8 @@ from gensim.models import TfidfModel, LdaMulticore
 import pyLDAvis.gensim_models as gensimvis
 import pandas as pd
 import csvfile, modeling
-import time
-import pyLDAvis
+import time, ast
+import pyLDAvis, re
 
 print("---------------------테슬라 주식 데이터 Dataframe ------------------------")
 
@@ -41,9 +41,18 @@ newsFileName = 'tesla_news_topics'
 #테슬라 뉴스 dataFrame
 words_df = pd.DataFrame()
 words_df = csvfile.read_csv(newsFilePath, newsFileName)
+print('전처리 후 데이터 : ', words_df.shape)
 
-#문자열로 저장된 데이터를 리스트로 변환
-words_df['pos_content'] = words_df['pos_content'].apply(eval)
+# #문자열로 저장된 데이터를 리스트로 변환
+# words_df['pos_content'] = words_df['pos_content'].apply(eval)
+print(words_df[:5])
+
+# 내부 리스트를 각 문자열 요소에 '\n'을 제거
+flattened_clean_words = [str(element).replace('\n', '') for sublist in words_df['pos_content']  for element in sublist]
+
+# 각 문자열 요소에 ast.literal_eval을 적용
+# parsed_data = [ast.literal_eval(row) for row in flattened_clean_words]
+# print(parsed_data[:10])
 
 #주식 데이터와 열 이름 통일
 words_df = words_df.rename(columns={'date' : '날짜'})
@@ -91,7 +100,7 @@ n_splits = 5
 alphas = [0.001, 0.005, 0.01, 0.1, 1, 10, 100]
 
 # 최적의 alpha 찾기
-modeling.optimize_alpha(X, y, alphas, n_splits)
+#modeling.optimize_alpha(X, y, alphas, n_splits)
 
 alpha = 0.001 # K-FOLD로 구한 alpha값
 
@@ -161,11 +170,11 @@ if __name__ == '__main__':
 
   #LDA 시각화
   vis = gensimvis.prepare(lda, corpus_TFIDF, id2word)
-  pyLDAvis.save_html(vis, './Tesla_Project/data/lda_visualization_before.html')
+  pyLDAvis.save_html(vis, './Tesla_Project/data/visualization/lda_visualization.html')
   
   #csv 파일 저장
   save_topics_csv(lda, n)
   end_time = time.time()
 
-  execution_time = end_time - start_time
-  print(f"실행 시간: {execution_time} 초")
+  execution_time = (end_time - start_time) / 60
+  print(f"실행 시간: {execution_time} 분")

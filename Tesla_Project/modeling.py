@@ -1,6 +1,5 @@
 from sklearn.linear_model import Lasso
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import KFold
 from sklearn.model_selection import train_test_split
