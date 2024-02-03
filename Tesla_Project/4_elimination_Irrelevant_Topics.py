@@ -31,6 +31,13 @@ filtered_df_with_date = words_df[['날짜', 'pos_content']].loc[filtered_df.inde
 print(filtered_df_with_date[:10])
 print(filtered_df_with_date.shape)
 
+
+for index, row in filtered_df_with_date.iterrows():
+    filtered_df_with_date.at[index, 'pos'] = ''.join([item for sublist in row['pos_content'] for item in sublist])
+
+
+print(filtered_df_with_date[:10])
+
 # 해당하는 토픽 제외된 csv 파일 저장 : 29278
 savefilepath = './Tesla_Project/data/merge/'
 savefileName = 'tesla_news_topics'
