@@ -68,6 +68,10 @@ daily_news_count = news_cnt_daily.reset_index()
 daily_news_count.columns = ['날짜', '기사갯수']
 #print("daily_news_count : ", daily_news_count.info())
 
+words_df['pos_content'] = words_df['pos_content'].apply(lambda x: re.sub(r'[\[\]]', '', str(x)))
+
+print('[] 제거 :', words_df[:3])
+
 print("---------------------기사와 주식 병합 Dataframe ------------------------")
 # 주식 데이터와 기사 데이터를 병합
 data_df = pd.merge(stock_df, daily_news_count, how='outer', on='날짜')
@@ -107,7 +111,7 @@ alpha = 0.001 # K-FOLD로 구한 alpha값
 #TODO : 라쏘회귀 그래프 그림 그리기
 #라쏘회귀 실행
 modeling.LASSO_KFold(X, y, alpha, n_splits)
-#modeling.optimize_alpha(X, y, n_splits)
+modeling.optimize_alpha(X, y, n_splits)
 #modeling.new_lasso(X, y, n_splits)
 
 print("---------------------LDA 모델링------------------------")

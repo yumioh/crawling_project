@@ -21,6 +21,10 @@ def filter_rows_with_keywords(dataframe, keywords):
     filtered_df = dataframe[~mask]
     return filtered_df
 
+# 따옴표를 제거하는 함수 정의
+def remove_quotes(value):
+    return value.replace("'", "")
+
 # 주식 관련 키워드가 포함된 행 삭제
 filtered_df = filter_rows_with_keywords(words_df['pos_content'], stock_keywords)
 
@@ -31,12 +35,9 @@ filtered_df_with_date = words_df[['날짜', 'pos_content']].loc[filtered_df.inde
 print(filtered_df_with_date[:10])
 print(filtered_df_with_date.shape)
 
-
-for index, row in filtered_df_with_date.iterrows():
-    filtered_df_with_date.at[index, 'pos'] = ''.join([item for sublist in row['pos_content'] for item in sublist])
-
-
-print(filtered_df_with_date[:10])
+# 'pos_content' 열에 있는 각 셀에 함수 적용
+filtered_df_with_date['pos_content'] = filtered_df_with_date['pos_content'].apply(remove_quotes)
+print(filtered_df_with_date[:5])
 
 # 해당하는 토픽 제외된 csv 파일 저장 : 29278
 savefilepath = './Tesla_Project/data/merge/'
