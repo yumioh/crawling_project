@@ -73,7 +73,7 @@ def LASSO_KFold(X, y, alpha, n_splits) :
     # R-squared (결정 계수) 계산 :
     # 0 ~ 1사이의 범위를 가짐 1에 가까울수록 선형회귀 모델에 높은 연관성을 가짐
     # 음수는 성능을 안좋게 나타냄
-    r2 = r2_score(y, lasso_model.predict(X))
+    r2 = r2_score(y_test, lasso_model.predict(X_test))
 
     # 평균 MSE 출력
     mean_mse = sum(mse_scores) / len(mse_scores)

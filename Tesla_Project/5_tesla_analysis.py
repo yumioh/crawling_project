@@ -68,7 +68,8 @@ daily_news_count = news_cnt_daily.reset_index()
 daily_news_count.columns = ['날짜', '기사갯수']
 #print("daily_news_count : ", daily_news_count.info())
 
-words_df['pos_content'] = words_df['pos_content'].apply(lambda x: re.sub(r'[\[\]]', '', str(x)))
+#대괄호 없애기
+words_df['pos_content'] = words_df['pos_content'].apply(lambda x: re.sub(r'[\[\],]', '', str(x)))
 
 print('[] 제거 :', words_df[:3])
 
@@ -103,15 +104,12 @@ y = data_df['거래량'].values.reshape(-1,1)
 n_splits = 5
 alphas = [0.001, 0.005, 0.01, 0.1, 1, 10, 100]
 
-# 최적의 alpha 찾기
+#최적의 alpha 찾기
 #modeling.optimize_alpha(X, y, alphas, n_splits)
-
 alpha = 0.001 # K-FOLD로 구한 alpha값
 
-#TODO : 라쏘회귀 그래프 그림 그리기
 #라쏘회귀 실행
 modeling.LASSO_KFold(X, y, alpha, n_splits)
-modeling.optimize_alpha(X, y, n_splits)
 #modeling.new_lasso(X, y, n_splits)
 
 print("---------------------LDA 모델링------------------------")
