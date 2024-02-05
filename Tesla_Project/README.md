@@ -82,6 +82,14 @@
       2. K-fold 교차검증을 통해 최적의 alpha값 구함
       3. 라쏘회귀 모델로 MSE(평균 제곱 오차)값과 R-squared(결정계수)값 확인
 
+## - 결정게수(R-squared)와 K-fold, MSE값
+
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/8af56919-59c6-4421-8e02-ba7378a02709" width="70%" height="30%"/>
+
+## - 라쏘회귀 시각화
+
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/16f3eb89-90d1-4c18-b14b-73eb2dc1b3bd" width="70%" height="30%"/>
+
 ## 2. LDA 모델링
     - LDA는 토픽 모델링의 가장 대표적인 알고리즘으로 문서의 집합으로부터 어떤 토픽이 존재하지를 알아내기 위한 알고리즘
     - 토픽 개수 30개내로 한정 => 뉴스 기록 숫자에 따라 토픽 개수를 달리 하는 것은 결과에 큰 변화를 불려오지 않음
