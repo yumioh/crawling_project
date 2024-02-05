@@ -5,7 +5,7 @@ import gensim
 import matplotlib.pyplot as plt
 import pandas as pd
 import csvfile
-import time
+import time, re
 import pyLDAvis
 
 print("---------------------테슬라 주식 데이터 Dataframe ------------------------")
@@ -37,17 +37,21 @@ topicFileName = 'tesla_news_topics'
 #테슬라 뉴스 dataFrame
 words_df = pd.DataFrame()
 words_df = csvfile.read_csv(topicFilePath, topicFileName)
+print(words_df[:10])
 
 #datetime으로 타입 변환
 words_df['날짜'] = pd.to_datetime(words_df['날짜'])
 
 #기사 데이터 날짜별 기사 수 추출
-news_cnt= words_df.groupby(words_df['날짜']).count()['nouns_content']
+news_cnt= words_df.groupby(words_df['날짜']).count()['pos_content']
 #print(news_cnt_daily)
 
 news_count = news_cnt.reset_index()
 news_count.columns = ['날짜', '기사갯수']
 print(news_count.info())
+
+#대괄호 없애기
+words_df['pos_content'] = words_df['pos_content'].apply(lambda x: re.sub(r'[\[\],]', '', str(x)))
 
 #TODO : 단어 빈도 구해서 워드 클라우드 만들기 
 
@@ -56,7 +60,7 @@ print("---------------------BoW(Bag of Word) ------------------------")
 #딕셔너리 생성 : 다시하기 
 dic = Dictionary()
 #clean_words = words_df['nouns_content']
-clean_words = words_df['nouns_content'].apply(lambda x: str(x).split())
+clean_words = words_df['pos_content'].apply(lambda x: str(x).split())
 id2word = Dictionary(clean_words)
 #print(id2word)
 
@@ -111,7 +115,6 @@ def save_topics_csv(lda, num_topics, save_result_to: str = './Tesla_Project/data
   topics = pd.Series(lda.print_topics(num_topics=num_topics, num_words=10))
   topics.to_csv(save_result_to, mode='w', encoding='utf-8', header=['list'], index_label='topic')
 
-
 #tfidf로 벡터화 적용
 tfidf = TfidfModel(corpus_TDM)
 corpus_TFIDF = tfidf[corpus_TDM]
@@ -158,7 +161,7 @@ if __name__ == '__main__':
 
   #LDA 시각화
   vis = gensimvis.prepare(lda, corpus_TFIDF, id2word, sort_topics=False)
-  pyLDAvis.save_html(vis, './Tesla_Project/data/lda_visualization.html')
+  pyLDAvis.save_html(vis, './Tesla_Project/data/lda_visualization_topic.html')
 
   end_time = time.time()
   execution_time = end_time - start_time
