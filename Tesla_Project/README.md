@@ -84,11 +84,11 @@
 
 ## - 결정게수(R-squared)와 K-fold, MSE값
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/8af56919-59c6-4421-8e02-ba7378a02709" width="70%" height="30%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/8af56919-59c6-4421-8e02-ba7378a02709" width="60%" height="30%"/>
 
 ## - 라쏘회귀 시각화
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/16f3eb89-90d1-4c18-b14b-73eb2dc1b3bd" width="70%" height="30%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/16f3eb89-90d1-4c18-b14b-73eb2dc1b3bd" width="60%" height="30%"/>
 
 ## 2. LDA 모델링
     - LDA는 토픽 모델링의 가장 대표적인 알고리즘으로 문서의 집합으로부터 어떤 토픽이 존재하지를 알아내기 위한 알고리즘
@@ -109,29 +109,37 @@
      - 주어진 데이터를 바탕으로 Perplexity의 결과가 Perplexity값이 마이너스로 나와 Perplexity으로 적합한 토픽 개수 결정 불가능
        
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/473e8232-8466-469e-8c1d-120cb2c67195" width="70%" height="30%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/473e8232-8466-469e-8c1d-120cb2c67195" width="60%" height="30%"/>
 
    ## - Coherence 시각화
       - 그래서 Coherence의 결과가 토픽의 개수가 20개 일때 토픽의 의미와 일관성을 보임
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/7ea465e0-a6ce-4767-8499-3b9b1749cf5b" width="70%" height="30%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/7ea465e0-a6ce-4767-8499-3b9b1749cf5b" width="60%" height="30%"/>
 
 
    ## - LDA 모델링 시각화
       - Perplexity와 Coherence를 통해 두가지 측면을 종합하여 토픽의 개수를 20개로 설정
       - topic 15,16,3이 가장 큰 토픽들이며, 이 토픽들의 크기와 위치를 통해 중요도와 빈도가 높고 비슷한 주제를 갖고 있는 걸 볼 수 있음
   
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/a6669ad6-263c-4eaa-a23a-ab7abd3209f3" width="100%" height="100%" margin="5px"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/a6669ad6-263c-4eaa-a23a-ab7abd3209f3" width="80%" height="80%" margin="5px"/>
 
   ## - LDA 모델링 시각화 : topic 15
      - topic 15의 결과를 보면 트위터, 머스크, 저커버그, 인공지능, 소송 등 일론 머스크와 관련된 논란 위주의 키워드가 주로 나타남
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/9bb16986-daec-4e4e-9c83-275ff3549c6c" width="100%" height="100%" margin="5px"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/9bb16986-daec-4e4e-9c83-275ff3549c6c" width="80%" height="80%" margin="5px"/>
 
   ## - LDA 모델링 시각화 : topic 16, 3
      - topic 16,3은 배터리, 전기차, 에너지, 자율 주행 등 보다 전기 자동차와 관련 키워드가 많이 나타남
      - 또한, 니켈, 전지, 리튬, 양극 등 2차전지에 핵심 소재로 보이는 키워드도 다수 나타남. 
        2차 전지는 전기차에 핵심 구성 요소로 전기차의 성장에 따라 2차 전기 수요도가 늘어나기 때문에 강력한 상관관계를 확인
 
+
+# FVE와 FPE 구하기
+  - FVE (Fraction of Volume Explained) : 뉴스량과 거래량의 상관관계를 의미함. LDA 토픽 모델링을 통해 뽑은 상위 키워드를 선정. </br> (해당 토픽의 거래량) / (전체 거래량)를 구함. 시각화를 통해 거래량과 해당 토픽 거래량을 비교
+  - FPE (Fraction of Peaks Explained) : 거개량이 특정 임계치를 넘는 날을 피크일로 정의 (논문에서 95%이상 FPE를 사용). 해당하는 피크일에 최빈 토픽 확인
+  - FPE와 FVE 값을 그래프나 차트로 시각화하여 어떤 토픽이 거래량의 변동을 가장 잘 설명하는지 확인 가능
+
+## 1. 테슬라 전체 거래량 
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/1686757b-2e4c-4b06-88eb-e1f66bdbd298" width="80%" height="80%" margin="5px"/>
 
 ## 5. 결론
     - 
