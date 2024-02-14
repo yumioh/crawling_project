@@ -1,5 +1,6 @@
 from gensim.corpora.dictionary import Dictionary
 from gensim.models import TfidfModel, LdaMulticore, CoherenceModel
+from wordcloud import WordCloud
 import pyLDAvis.gensim_models as gensimvis
 import gensim
 import matplotlib.pyplot as plt
@@ -7,6 +8,13 @@ import pandas as pd
 import csvfile
 import time, re
 import pyLDAvis
+import os
+from dotenv import load_dotenv
+from collections import Counter
+from konlpy.tag import Okt
+
+load_dotenv()
+font_path = os.environ.get('FONT_PATH')
 
 print("---------------------테슬라 주식 데이터 Dataframe ------------------------")
 
@@ -53,16 +61,39 @@ print(news_count.info())
 #대괄호 없애기
 words_df['pos_content'] = words_df['pos_content'].apply(lambda x: re.sub(r'[\[\],]', '', str(x)))
 
-#TODO : 단어 빈도 구해서 워드 클라우드 만들기 
-
 print("---------------------BoW(Bag of Word) ------------------------")
 
 #딕셔너리 생성 : 다시하기 
 dic = Dictionary()
 #clean_words = words_df['nouns_content']
-clean_words = words_df['pos_content'].apply(lambda x: str(x).split())
-id2word = Dictionary(clean_words)
-#print(id2word)
+clean_words = words_df['pos_content'].apply(lambda x: [word for word in str(x).split() if word.strip()])
+id2word = Dictionary(clean_words.dropna())
+print(id2word)
+
+okt = Okt()
+clean_words['명사'] = clean_words.apply(lambda x: ' '.join([word for word, tag in okt.pos(str(x)) if tag.startswith('N') and len(word) > 1])) # 명사 추출
+print(clean_words[:10])
+
+all_words = [word for sublist in clean_words['명사'] for word in sublist]
+word_freq = Counter(all_words)
+print(word_freq.most_common(10))
+
+print("---------------------워드 클라우드 만들기 ------------------------")
+
+wordcloud = WordCloud(max_font_size=200,
+                       font_path=font_path,
+                       #stopwords=STOPWORDS,
+                       background_color='#FFFFFF',
+                       width=1200,
+                       height=800,
+                       max_words=
+                       100).generate(' '.join(all_words))
+
+plt.figure(figsize=(20,20))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.tight_layout(pad=0)
+plt.axis('off')
+plt.show()
 
 corpus_TDM = []
 for doc in clean_words:
@@ -72,10 +103,11 @@ for doc in clean_words:
 
 print("---------------------Perplexity------------------------")
 
-# 토픽 갯수 선정을 위해 Perplexity 구하기 
-# 확률 모델이 결과를 얼마나 정확하게 예측하는지 판단 낮을수록 정확하게 예측ㄴ 
-# 주 용도: 동일 모델 낸 파라미터에 따른 성능 평가할때 주로 사용
-# 한계 : Perplexity가 낮다고 해서, 결과가 해석 용이하다는 의미가 아님
+# # 토픽 갯수 선정을 위해 Perplexity 구하기 
+# # 확률 모델이 결과를 얼마나 정확하게 예측하는지 판단. 낮을수록 정확하게 예측
+# # 주 용도: 동일 모델 파라미터에 따른 성능 평가할때 주로 사용
+# # 한계 : Perplexity가 낮다고 해서, 결과가 해석 용이하다는 의미가 아님
+
 # perplexity_values = []
 # for i in range(2,45) :
 #   ldamodel = gensim.models.ldamodel.LdaModel(corpus_TDM, num_topics = i, id2word = id2word)
@@ -103,7 +135,6 @@ print("---------------------Coherence------------------------")
 # y = range(2,45)
 # plt.plot(y, coherence_values)
 # plt.xlabel("number of topics")
-
 # plt.ylabel("coherence socre")
 # plt.show()
 
@@ -122,7 +153,7 @@ corpus_TFIDF = tfidf[corpus_TDM]
 #LDA 모델링
 if __name__ == '__main__':
   start_time = time.time()
-  n = 20 #토픽의 개수
+  n = 18 #토픽의 개수
 
   #worker(프로세스 수),토픽수.passes(매개변수) 수를 조정하여 
   #속도를 높일 수 있음
@@ -133,7 +164,7 @@ if __name__ == '__main__':
                     chunksize=100,
                     minimum_probability = 0.05,
                     passes=10,
-                    workers=6)
+                    workers=10)
 
   for t in lda.print_topics():
     print(t[0],":",t[1])
@@ -163,6 +194,9 @@ if __name__ == '__main__':
   vis = gensimvis.prepare(lda, corpus_TFIDF, id2word, sort_topics=False)
   pyLDAvis.save_html(vis, './Tesla_Project/data/lda_visualization_topic.html')
 
+  #csv 파일 저장
+  save_topics_csv(lda, n)
+
   end_time = time.time()
-  execution_time = end_time - start_time
-  print(f"실행 시간: {execution_time} 초")
+  execution_time = (end_time - start_time) / 60
+  print(f"실행 시간: {execution_time} 분")

@@ -4,8 +4,7 @@ import matplotlib.dates as mdates
 import csvfile
 
 # 전처리, 토큰화 된 테슬라 뉴스 데이터를 lda를 통해 추출한 토픽을 추출
-# FVE : 
-# 각 토픽의 주식 거래량에 대한 설명 가능한 비율을 계산. (논문에서는 0.5% 이상의 FVE를 사용)
+# FVE : 각 토픽의 주식 거래량에 대한 설명 가능한 비율을 계산. (논문에서는 0.5% 이상의 FVE를 사용)
 # FVE 계산식: FVE = (해당 토픽의 거래량) / (전체 거래량)
 
 print("---------------------테슬라 뉴스 데이터 토픽별 날짜 추출 ------------------------")
@@ -21,8 +20,8 @@ words_df = csvfile.read_csv(fsilePath, newsFileName)
 words_df['날짜'] = pd.to_datetime(words_df['날짜'])
 
 # 해당하는 토픽 
-top_topic = '전기'
-keyword = 'Electric'
+top_topic = '해고'
+keyword = 'Fired'
 
 # pos_content 해당하는 토픽행만 추출
 filtered_rows = words_df[words_df['pos_content'].str.contains(top_topic, case=False, na=False)]
