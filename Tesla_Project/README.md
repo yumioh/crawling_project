@@ -112,9 +112,9 @@
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/473e8232-8466-469e-8c1d-120cb2c67195" width="60%" height="30%"/>
 
    ## - Coherence 시각화
-      - 그래서 Coherence의 결과가 토픽의 개수가 20개 일때 토픽의 의미와 일관성을 보임
+      - 그래서 Coherence의 결과가 토픽의 개수가 18개 일때 토픽의 의미와 일관성을 보임
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/7ea465e0-a6ce-4767-8499-3b9b1749cf5b" width="60%" height="30%"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/152c4102-d15e-493f-bb2d-85a224b276c6" width="60%" height="30%"/>
 
 
    ## - LDA 모델링 시각화
