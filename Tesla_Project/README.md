@@ -139,12 +139,16 @@
 
 
 # FVE와 FPE 구하기
-  - FVE (Fraction of Volume Explained) : 뉴스량과 거래량의 상관관계를 의미함. LDA 토픽 모델링을 통해 뽑은 상위 키워드를 선정. </br> (해당 토픽의 거래량) / (전체 거래량)를 구함. 시각화를 통해 거래량과 해당 토픽 거래량을 비교
+  - FVE (Fraction of Volume Explained) : 뉴스량과 거래량의 상관관계를 의미함. LDA 토픽 모델링을 통해 뽑은 상위 키워드를 선정. </br> (해당 토픽의 뉴스량) / (전체 주식 거래량)를 구함. 시각화를 통해 거래량과 해당 토픽 거래량을 비교
   - FPE (Fraction of Peaks Explained) : 거개량이 특정 임계치를 넘는 날을 피크일로 정의 (논문에서 95%이상 FPE를 사용). 해당하는 피크일에 최빈 토픽 확인
   - FPE와 FVE 값을 그래프나 차트로 시각화하여 어떤 토픽이 거래량의 변동을 가장 잘 설명하는지 확인 가능
 
 ## 1. 테슬라 전체 거래량 
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/1686757b-2e4c-4b06-88eb-e1f66bdbd298" width="80%" height="80%" margin="5px"/>
+
+## 2. FVE(배터리) 
+
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/18ffa7ad-acd9-4884-a691-e7dbd7cb6603" width="80%" height="80%" margin="5px"/>
 
 ## 5. 결론
     - 
