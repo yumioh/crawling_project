@@ -118,16 +118,17 @@
 
 
    ## - LDA 모델링 시각화
-      - Perplexity와 Coherence를 통해 두가지 측면을 종합하여 토픽의 개수를 20개로 설정
-      - topic 15,16,3이 가장 큰 토픽들이며, 이 토픽들의 크기와 위치를 통해 중요도와 빈도가 높고 비슷한 주제를 갖고 있는 걸 볼 수 있음
+      - Perplexity와 Coherence를 통해 두가지 측면을 종합하여 토픽의 개수를 18개로 설정
+      - topic 1,2가 가장 큰 토픽들이며, 이 토픽들의 크기와 위치를 통해 중요도와 빈도가 높고 비슷한 주제를 갖고 있는 걸 볼 수 있음
   
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/a6669ad6-263c-4eaa-a23a-ab7abd3209f3" width="80%" height="80%" margin="5px"/>
 
-  ## - LDA 모델링 시각화 : topic 15
-     - topic 15의 결과를 보면 트위터, 머스크, 저커버그, 인공지능, 소송 등 일론 머스크와 관련된 논란 위주의 키워드가 주로 나타남
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/9bb16986-daec-4e4e-9c83-275ff3549c6c" width="80%" height="80%" margin="5px"/>
+  ## - LDA 모델링 시각화 : topic 1
+     - topic 1의 결과를 보면 배터리, 전기차, 에너지, 반도체 등 전기차 산업의 핵심 기술과 관련된 키워드 위주로 많이 나타남
+     - 이런한 키워들은 전기차 산업의 주요 동향 및 기술 발전에 대하여 알수 있음
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/edc6e17d-9a48-4fe0-8c80-cb4c10d92a46" width="80%" height="80%" margin="5px"/>
 
-  ## - LDA 모델링 시각화 : topic 16, 3
+  ## - LDA 모델링 시각화 : topic 2
      - topic 16,3은 배터리, 전기차, 에너지, 자율 주행 등 보다 전기 자동차와 관련 키워드가 많이 나타남
      - 또한, 니켈, 전지, 리튬, 양극 등 2차전지에 핵심 소재로 보이는 키워드도 다수 나타남. 
        2차 전지는 전기차에 핵심 구성 요소로 전기차의 성장에 따라 2차 전기 수요도가 늘어나기 때문에 강력한 상관관계를 확인
