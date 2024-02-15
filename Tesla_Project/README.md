@@ -125,13 +125,14 @@
 
   ## - LDA 모델링 시각화 : topic 1
      - topic 1의 결과를 보면 배터리, 전기차, 에너지, 반도체 등 전기차 산업의 핵심 기술과 관련된 키워드 위주로 많이 나타남
-     - 이런한 키워들은 전기차 산업의 주요 동향 및 기술 발전에 대하여 알수 있음
+     - 이런한 키워드들은 전기차 산업의 주요 동향 및 기술 발전에 대해 인사이트를 도출 할 수 있음
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/edc6e17d-9a48-4fe0-8c80-cb4c10d92a46" width="80%" height="80%" margin="5px"/>
 
   ## - LDA 모델링 시각화 : topic 2
      - topic 16,3은 배터리, 전기차, 에너지, 자율 주행 등 보다 전기 자동차와 관련 키워드가 많이 나타남
      - 또한, 니켈, 전지, 리튬, 양극 등 2차전지에 핵심 소재로 보이는 키워드도 다수 나타남. 
        2차 전지는 전기차에 핵심 구성 요소로 전기차의 성장에 따라 2차 전기 수요도가 늘어나기 때문에 강력한 상관관계를 확인
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/604d9d0b-2575-4f5d-b9af-d80ce720f700" width="80%" height="80%" margin="5px"/>
 
 
 # FVE와 FPE 구하기
