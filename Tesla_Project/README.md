@@ -121,11 +121,12 @@
       - Perplexity와 Coherence를 통해 두가지 측면을 종합하여 토픽의 개수를 18개로 설정
       - topic 1,2가 가장 큰 토픽들이며, 이 토픽들의 크기와 위치를 통해 중요도와 빈도가 높고 비슷한 주제를 갖고 있는 걸 볼 수 있음
   
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/a6669ad6-263c-4eaa-a23a-ab7abd3209f3" width="80%" height="80%" margin="5px"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/feb9858c-0aff-4627-9de7-2e89a53e2702" width="80%" height="80%" margin="5px"/>
 
   ## - LDA 모델링 시각화 : topic 1
      - topic 1의 결과를 보면 배터리, 전기차, 에너지, 반도체 등 전기차 산업의 핵심 기술과 관련된 키워드 위주로 많이 나타남
      - 이런한 키워드들은 전기차 산업의 주요 동향 및 기술 발전에 대해 인사이트를 도출 할 수 있음
+     
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/edc6e17d-9a48-4fe0-8c80-cb4c10d92a46" width="80%" height="80%" margin="5px"/>
 
   ## - LDA 모델링 시각화 : topic 2
@@ -133,6 +134,7 @@
      - 트위터, 머스크는 테슬라와 관련된 소식을 크게 이슈화하고, 회사의 방향성에 큰 영향을 미침
      - 해고는 대규모 해고로 인한 이슈, 테슬라는 자동차 산업에서 인공지능 기술을 적극적으로 활용하고 있어 중요한 역할을 하고 있다는 것을 확인
      - 결과적으로 테슬라와 관련된 다양한 주제와 인물들에 대한 관심이 높다는 것을 의미
+     
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/604d9d0b-2575-4f5d-b9af-d80ce720f700" width="80%" height="80%" margin="5px"/>
 
 
