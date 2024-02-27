@@ -144,11 +144,30 @@
   - FPE와 FVE 값을 그래프나 차트로 시각화하여 어떤 토픽이 거래량의 변동을 가장 잘 설명하는지 확인 가능
 
 ## 1. 테슬라 전체 거래량 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/1686757b-2e4c-4b06-88eb-e1f66bdbd298" width="80%" height="80%" margin="5px"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/e4698992-3597-48e4-94fd-c5aa114c1407" width="80%" height="80%" margin="5px"/>
 
-## 2. FVE(배터리) 
+## 2. FVE
+
+#### 1) 키워드 : 배터리 
 
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/18ffa7ad-acd9-4884-a691-e7dbd7cb6603" width="80%" height="80%" margin="5px"/>
+
+#### 2) 키워드 : 반도체
+
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/e4ada2e1-4c2b-42c8-9bda-2a89249cff0d" width="80%" height="80%" margin="5px"/>
+
+#### 3) 키워드 : 전기차
+
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/1af38227-0ed0-4433-8957-8f6fc901b33a" width="80%" height="80%" margin="5px"/>
+
+#### 4) 키워드 : 트위터
+
+<img src="" width="80%" height="80%" margin="5px"/>
+
+#### 5) 키워드 : 트위터
+
+<img src="" width="80%" height="80%" margin="5px"/>
+
 
 ## 5. 결론
     - 
