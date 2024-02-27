@@ -162,11 +162,11 @@
 
 #### 4) 키워드 : 트위터
 
-<img src="" width="80%" height="80%" margin="5px"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/16cdc390-55f9-4f12-86d5-51019a0ebe75" width="80%" height="80%" margin="5px"/>
 
-#### 5) 키워드 : 트위터
+#### 5) 키워드 : 로봇
 
-<img src="" width="80%" height="80%" margin="5px"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/730870d2-32f6-418a-b02e-843a07208b14" width="80%" height="80%" margin="5px"/>
 
 
 ## 5. 결론
