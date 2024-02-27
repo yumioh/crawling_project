@@ -146,7 +146,7 @@
 ## 1. 테슬라 전체 거래량 
 <img src="https://github.com/yumioh/data_analysis/assets/38059057/e4698992-3597-48e4-94fd-c5aa114c1407" width="80%" height="80%" margin="5px"/>
 
-## 2. FVE
+## 2. FVE 그래프
 
 #### 1) 키워드 : 배터리 
         - FVE(Fraction of Variance Explained) 그래프를 기반으로 하여 배터리 키워드와 주가 간에는 큰 영향이 없다고 판단. 
