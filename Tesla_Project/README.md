@@ -150,15 +150,15 @@
 
 #### 1) 키워드 : 배터리 
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/18ffa7ad-acd9-4884-a691-e7dbd7cb6603" width="80%" height="80%" margin="5px"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/3b727821-2aa3-4377-9c09-cfcc39fed331" width="80%" height="80%" margin="5px"/>
 
-#### 2) 키워드 : 반도체
+#### 2) 키워드 : 하이브리드
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/e4ada2e1-4c2b-42c8-9bda-2a89249cff0d" width="80%" height="80%" margin="5px"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/23f59980-2a01-4fff-8d87-335c15ab0737" width="80%" height="80%" margin="5px"/>
 
 #### 3) 키워드 : 전기차
 
-<img src="https://github.com/yumioh/data_analysis/assets/38059057/1af38227-0ed0-4433-8957-8f6fc901b33a" width="80%" height="80%" margin="5px"/>
+<img src="https://github.com/yumioh/data_analysis/assets/38059057/7a84c606-5100-403c-bd4a-694780c608c5" width="80%" height="80%" margin="5px"/>
 
 #### 4) 키워드 : 트위터
 
